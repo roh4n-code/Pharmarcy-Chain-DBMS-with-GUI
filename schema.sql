@@ -2,92 +2,102 @@ CREATE database pharmadb;
 USE pharmadb;
 
 CREATE TABLE PharmaCompany(
-	pc_name varchar(255) NOT NULL,
-    pc_contact bigint,
+	pc_name VARCHAR(50) NOT NULL,
+    pc_contact VARCHAR(30),
     
-    primary key(pc_name)
+    PRIMARY KEY(pc_name)
 );
 
 CREATE TABLE Drugs(
-	pc_name varchar(255) NOT NULL,
-    trade_name varchar(255) NOT NULL,
-    formula varchar(255),
+	pc_name VARCHAR(50) NOT NULL,
+    trade_name VARCHAR(50) NOT NULL,
+    formula VARCHAR(255),
     
-    primary key(trade_name),
-    foreign key(pc_name) references PharmaCompany(pc_name)
+    PRIMARY KEY(trade_name),
+    FOREIGN KEY(pc_name) references PharmaCompany(pc_name)
 );
 
 CREATE TABLE Pharmacy(
-	ph_name varchar(255) NOT NULL,
-    ph_add varchar(255),
-    ph_contact bigint,
+	ph_name VARCHAR(50) NOT NULL,
+    ph_add VARCHAR(255),
+    ph_contact VARCHAR(30),
     
-    primary key(ph_name)
+    PRIMARY KEY(ph_name)
 );
 
 CREATE TABLE Contract(
-	pc_name varchar(255) NOT NULL,
+	pc_name VARCHAR(50) NOT NULL,
     start_date date NOT NULL,
     end_date date NOT NULL,
-	content varchar(255) NOT NULL,
-    supervisor varchar(255),
-    ph_name varchar(255) NOT NULL,
+	content VARCHAR(500) NOT NULL,
+    supervisor VARCHAR(50),
+    ph_name VARCHAR(50) NOT NULL,
     
-    foreign key(pc_name) references PharmaCompany(pc_name),
-    foreign key(ph_name) references Pharmacy(ph_name)
+    PRIMARY KEY(pc_name,ph_name),
+    FOREIGN KEY(pc_name) references PharmaCompany(pc_name),
+    FOREIGN KEY(ph_name) references Pharmacy(ph_name),
+    
+    CHECK(end_date > start_date)
 );
 
 CREATE TABLE Pharmacy_Drugs(
-	pc_name varchar(255) NOT NULL,
-    trade_name varchar(255) NOT NULL,
-    price int,
-    ph_name varchar(255) NOT NULL,
+	pc_name VARCHAR(50) NOT NULL,
+    trade_name VARCHAR(50) NOT NULL,
+    price DECIMAL(5,2) NOT NULL,
+    ph_name VARCHAR(50) NOT NULL,
     
-    foreign key(ph_name) references Pharmacy(ph_name),
-    foreign key(pc_name) references PharmaCompany(pc_name),
-    foreign key(trade_name) references Drugs(trade_name)
+    PRIMARY KEY (pc_name,trade_name,ph_name),
+    FOREIGN KEY(ph_name) references Pharmacy(ph_name),
+    FOREIGN KEY(pc_name) references PharmaCompany(pc_name),
+    FOREIGN KEY(trade_name) references Drugs(trade_name),
+    
+    CHECK(price > 0)
 );
 
 CREATE TABLE Doctor(
-	d_name varchar(255),
-    spec varchar(255),
-    years_of_exp int,
-    d_aadhar bigint NOT NULL,
+	d_name VARCHAR(50),
+    spec VARCHAR(30),
+    years_of_exp INT,
+    d_aadhar VARCHAR(12) NOT NULL,
     
-    primary key(d_aadhar)
+    PRIMARY KEY(d_aadhar),
+    
+    CHECK (years_of_exp > 0)
 );
 
 CREATE TABLE Patient(
-	p_name varchar(255) ,
-    p_add varchar(255) ,
-    p_age int,
-    p_aadhar bigint NOT NULL,
-    p_doc_aid bigint NOT NULL,
+	p_name VARCHAR(50) NOT NULL,
+    p_add VARCHAR(255) ,
+    p_age INT NOT NULL,
+    p_aadhar VARCHAR(12) NOT NULL,
+    p_doc_aid VARCHAR(12) NOT NULL,
     
-    primary key(p_aadhar),
-    foreign key(p_doc_aid) references Doctor(d_aadhar)
+    PRIMARY KEY(p_aadhar),
+    FOREIGN KEY(p_doc_aid) references Doctor(d_aadhar),
+    
+    CHECK (p_age >= 0) 
 );
 
 CREATE TABLE Prescription(
-	pr_no int NOT NULL,
+	pr_no INT auto_increment,
     pr_date date NOT NULL,
-    p_id bigint NOT NULL,
-    d_id bigint NOT NULL,
+    p_id VARCHAR(12) NOT NULL,
+    d_id VARCHAR(12) NOT NULL,
     
     UNIQUE(p_id,d_id,pr_date),
-    primary key(pr_no),
-    foreign key(p_id) references Patient(p_aadhar),
-    foreign key(d_id) references Doctor(d_aadhar)
+    PRIMARY KEY(pr_no),
+    FOREIGN KEY(p_id) references Patient(p_aadhar),
+    FOREIGN KEY(d_id) references Doctor(d_aadhar)
 );
 
 CREATE TABLE Prescription_Drugs(
-	pc_name varchar(255) NOT NULL,
-    trade_name varchar(255) NOT NULL,
-    pr_no int NOT NULL,
-    quantity int NOT NULL,
+	pc_name VARCHAR(50) NOT NULL,
+    trade_name VARCHAR(50) NOT NULL,
+    pr_no INT NOT NULL,
+    quantity INT NOT NULL,
     
-    foreign key(pc_name) references PharmaCompany(pc_name),
-    foreign key(pr_no) references Prescription(pr_no),
-    foreign key(trade_name) references Drugs(trade_name)
-    
+    PRIMARY KEY(pc_name,trade_name,pr_no),    
+    FOREIGN KEY(pc_name) references PharmaCompany(pc_name),
+    FOREIGN KEY(pr_no) references Prescription(pr_no),
+    FOREIGN KEY(trade_name) references Drugs(trade_name)
 );
