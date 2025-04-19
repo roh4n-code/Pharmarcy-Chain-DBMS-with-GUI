@@ -1,4 +1,4 @@
-CREATE database pharmadb;
+CREATE DATABASE pharmadb;
 USE pharmadb;
 
 CREATE TABLE PharmaCompany(
@@ -45,13 +45,14 @@ CREATE TABLE Pharmacy_Drugs(
     trade_name VARCHAR(50) NOT NULL,
     price DECIMAL(5,2) NOT NULL,
     ph_name VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL,
     
     PRIMARY KEY (pc_name,trade_name,ph_name),
     FOREIGN KEY(ph_name) references Pharmacy(ph_name),
     FOREIGN KEY(pc_name) references PharmaCompany(pc_name),
     FOREIGN KEY(trade_name) references Drugs(trade_name),
     
-    CHECK(price > 0)
+    CHECK(price > 0 AND quantity > 0)
 );
 
 CREATE TABLE Doctor(
