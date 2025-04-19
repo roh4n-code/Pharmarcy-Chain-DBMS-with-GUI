@@ -66,34 +66,34 @@ INSERT INTO Contract (pc_name, start_date, end_date, content, supervisor, ph_nam
 ('Sun Pharma', '2024-03-15', '2026-03-14', 'General medicines supply agreement', 'Amanda Lee', 'HealthMart');
 
 -- Pharmacy_Drugs Data
-INSERT INTO Pharmacy_Drugs (pc_name, trade_name, price, ph_name) VALUES
-('Pfizer', 'Lipitor', 120.50, 'MedPlus'),
-('Pfizer', 'Viagra', 95.75, 'MedPlus'),
-('Pfizer', 'Xanax', 45.25, 'MedPlus'),
-('Novartis', 'Diovan', 89.99, 'MedPlus'),
-('Bayer', 'Aspirin', 12.50, 'MedPlus'),
-('Pfizer', 'Lipitor', 125.99, 'HealthMart'),
-('Novartis', 'Gleevec', 325.50, 'HealthMart'),
-('Bayer', 'Aleve', 15.75, 'HealthMart'),
-('Sun Pharma', 'Pantocid', 32.99, 'HealthMart'),
-('GlaxoSmithKline', 'Advair', 210.25, 'Wellness Pharmacy'),
-('GlaxoSmithKline', 'Ventolin', 65.50, 'Wellness Pharmacy'),
-('Johnson & Johnson', 'Tylenol', 8.99, 'Wellness Pharmacy'),
-('Johnson & Johnson', 'Benadryl', 12.75, 'City Drugs'),
-('Sanofi', 'Lantus', 275.50, 'City Drugs'),
-('Sun Pharma', 'Pantocid', 30.25, 'City Drugs'),
-('Roche', 'Valium', 55.99, 'Care Pharmacy'),
-('Roche', 'Tamiflu', 95.25, 'Care Pharmacy'),
-('Merck', 'Januvia', 185.50, 'Quick Meds'),
-('Merck', 'Zocor', 110.75, 'Quick Meds'),
-('AstraZeneca', 'Nexium', 125.99, 'Family Pharma'),
-('AstraZeneca', 'Crestor', 155.50, 'Family Pharma'),
-('Pfizer', 'Xanax', 47.99, 'Apollo Pharmacy'),
-('Novartis', 'Diovan', 92.50, 'Apollo Pharmacy'),
-('Bayer', 'Aspirin', 13.25, 'Lifecare Drugs'),
-('Johnson & Johnson', 'Tylenol', 9.50, 'Lifecare Drugs'),
-('Sanofi', 'Ambien', 75.25, 'Metro Meds'),
-('AstraZeneca', 'Nexium', 129.99, 'Metro Meds');
+INSERT INTO Pharmacy_Drugs (pc_name, trade_name, price, ph_name,quantity) VALUES
+('Pfizer', 'Lipitor', 120.50, 'MedPlus',300),
+('Pfizer', 'Viagra', 95.75, 'MedPlus',250),
+('Pfizer', 'Xanax', 45.25, 'MedPlus',100),
+('Novartis', 'Diovan', 89.99, 'MedPlus',500),
+('Bayer', 'Aspirin', 12.50, 'MedPlus',240),
+('Pfizer', 'Lipitor', 125.99, 'HealthMart',320),
+('Novartis', 'Gleevec', 325.50, 'HealthMart',270),
+('Bayer', 'Aleve', 15.75, 'HealthMart',190),
+('Sun Pharma', 'Pantocid', 32.99, 'HealthMart',340),
+('GlaxoSmithKline', 'Advair', 210.25, 'Wellness Pharmacy',450),
+('GlaxoSmithKline', 'Ventolin', 65.50, 'Wellness Pharmacy',290),
+('Johnson & Johnson', 'Tylenol', 8.99, 'Wellness Pharmacy',380),
+('Johnson & Johnson', 'Benadryl', 12.75, 'City Drugs',550),
+('Sanofi', 'Lantus', 275.50, 'City Drugs',440),
+('Sun Pharma', 'Pantocid', 30.25, 'City Drugs',390),
+('Roche', 'Valium', 55.99, 'Care Pharmacy',550),
+('Roche', 'Tamiflu', 95.25, 'Care Pharmacy',220),
+('Merck', 'Januvia', 185.50, 'Quick Meds',660),
+('Merck', 'Zocor', 110.75, 'Quick Meds',520),
+('AstraZeneca', 'Nexium', 125.99, 'Family Pharma',410),
+('AstraZeneca', 'Crestor', 155.50, 'Family Pharma',800),
+('Pfizer', 'Xanax', 47.99, 'Apollo Pharmacy',380),
+('Novartis', 'Diovan', 92.50, 'Apollo Pharmacy',70),
+('Bayer', 'Aspirin', 13.25, 'Lifecare Drugs',340),
+('Johnson & Johnson', 'Tylenol', 9.50, 'Lifecare Drugs',370),
+('Sanofi', 'Ambien', 75.25, 'Metro Meds',90),
+('AstraZeneca', 'Nexium', 129.99, 'Metro Meds',100);
 
 -- Doctor Data
 INSERT INTO Doctor (d_name, spec, years_of_exp, d_aadhar) VALUES
@@ -161,6 +161,7 @@ INSERT INTO Prescription (pr_date, p_id, d_id) VALUES
 
 -- Prescription_Drugs Data
 INSERT INTO Prescription_Drugs (pc_name, trade_name, pr_no, quantity) VALUES
+('Johnson & Johnson', 'Tylenol', 1, 20),
 ('Pfizer', 'Lipitor', 1, 30),
 ('Pfizer', 'Viagra', 2, 10),
 ('Novartis', 'Gleevec', 3, 60),
