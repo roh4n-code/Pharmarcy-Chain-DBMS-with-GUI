@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-users me-2"></i>Manage Patients
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-plus-circle me-2"></i>Add New Patient
+                </h5>
+                <form id="addPatientForm" action="{{ url_for('add_patient') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="p_name" class="form-label">Patient Name</label>
+                        <input type="text" class="form-control" id="p_name" name="p_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="p_add" class="form-label">Address</label>
+                        <textarea class="form-control" id="p_add" name="p_add" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="p_age" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="p_age" name="p_age" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="p_aadhar" class="form-label">Aadhar Number</label>
+                        <input type="text" class="form-control" id="p_aadhar" name="p_aadhar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="p_doc_aid" class="form-label">Doctor's Aadhar</label>
+                        <input type="text" class="form-control" id="p_doc_aid" name="p_doc_aid" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Patient
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-list me-2"></i>Patient List
+                </h5>
+                <div class="table-responsive">
+                    <table id="patientTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Address</th>
+                                <th>Aadhar</th>
+                                <th>Doctor</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Prescriptions Modal -->
+<div class="modal fade" id="prescriptionsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-prescription me-2"></i>Patient's Prescriptions
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table" id="prescriptionsTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Doctor</th>
+                                <th>Drugs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize DataTable with common config
+$(document).ready(function() {
+    const table = $('#patientTable').DataTable({
+        ...dataTableConfig,
+        ajax: {
+            url: '/patients',
+            dataSrc: ''
+        },
+        columns: [
+            { data: 'p_name' },
+            { data: 'p_age' },
+            { data: 'p_add' },
+            { data: 'p_aadhar' },
+            { data: 'd_name' },
+            {
+                data: 'p_aadhar',
+                render: function(data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-info btn-action" onclick="viewPrescriptions('${data}', '${row.p_name}')">
+                            <i class="fas fa-prescription me-1"></i>Prescriptions
+                        </button>
+                        <button class="btn btn-sm btn-danger btn-action" onclick="deletePatient('${data}')">
+                            <i class="fas fa-trash me-1"></i>Delete
+                        </button>
+                    `;
+                }
+            }
+        ]
+    });
+
+    // Initialize form submission handler
+    handleFormSubmit(
+        document.getElementById('addPatientForm'),
+        "{{ url_for('add_patient') }}",
+        table
+    );
+});
+
+function viewPrescriptions(patientAadhar, patientName) {
+    // Using the report endpoint to get prescriptions
+    const today = new Date();
+    const pastYear = new Date();
+    pastYear.setFullYear(today.getFullYear() - 1);
+    
+    const formData = new FormData();
+    formData.append('p_aadhar', patientAadhar);
+    formData.append('start_date', pastYear.toISOString().split('T')[0]);
+    formData.append('end_date', today.toISOString().split('T')[0]);
+    
+    fetch('/patient_report', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tbody = document.querySelector('#prescriptionsTable tbody');
+        tbody.innerHTML = '';
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center">No prescriptions found for this patient</td></tr>';
+        } else {
+            data.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.pr_date || '-'}</td>
+                        <td>${item.d_name || '-'}</td>
+                        <td>${item.medications || '-'}</td>
+                    </tr>
+                `;
+            });
+        }
+        
+        // Set modal title with patient name
+        document.querySelector('#prescriptionsModal .modal-title').innerHTML = 
+            `<i class="fas fa-prescription me-2"></i>Prescriptions for ${patientName}`;
+            
+        new bootstrap.Modal(document.getElementById('prescriptionsModal')).show();
+    })
+    .catch(error => showAlert('Error loading prescription data', 'danger'));
+}
+
+function deletePatient(patientAadhar) {
+    if (confirm('Are you sure you want to delete this patient?')) {
+        fetch(`/delete_patient/${patientAadhar}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    $('#patientTable').DataTable().ajax.reload();
+                    showAlert('Patient deleted successfully', 'success');
+                } else {
+                    showAlert('Error deleting patient', 'danger');
+                }
+            })
+            .catch(error => showAlert('Error deleting patient', 'danger'));
+    }
+}
+</script>
+{% endblock %}

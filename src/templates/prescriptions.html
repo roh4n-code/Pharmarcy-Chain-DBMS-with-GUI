@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-prescription me-2"></i>Manage Prescriptions
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-plus-circle me-2"></i>Add New Prescription
+                </h5>
+                <form id="addPrescriptionForm" action="{{ url_for('add_prescription') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="pr_date" class="form-label">Prescription Date</label>
+                        <input type="date" class="form-control" id="pr_date" name="pr_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="p_id" class="form-label">Patient Aadhar</label>
+                        <input type="text" class="form-control" id="p_id" name="p_id" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="d_id" class="form-label">Doctor Aadhar</label>
+                        <input type="text" class="form-control" id="d_id" name="d_id" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Prescription
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-list me-2"></i>Prescription List
+                </h5>
+                <div class="table-responsive">
+                    <table id="prescriptionTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Prescription Drugs Modal -->
+<div class="modal fade" id="drugsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-pills me-2"></i>Add Medication to Prescription
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addMedicationForm">
+                    <input type="hidden" id="pr_no" name="pr_no">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="pc_name" class="form-label">Company</label>
+                            <input type="text" class="form-control" id="pc_name" name="pc_name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="trade_name" class="form-label">Drug</label>
+                            <input type="text" class="form-control" id="trade_name" name="trade_name" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Medication
+                    </button>
+                </form>
+                
+                <hr class="my-4">
+                
+                <h6 class="mb-3">Current Medications</h6>
+                <div class="table-responsive">
+                    <table class="table" id="medicationsTable">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Drug</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize DataTable with common config
+$(document).ready(function() {
+    const table = $('#prescriptionTable').DataTable({
+        ...dataTableConfig,
+        ajax: {
+            url: '/prescriptions',
+            dataSrc: ''
+        },
+        columns: [
+            { data: 'pr_no' },
+            { data: 'pr_date' },
+            { data: 'p_name' },
+            { data: 'd_name' },
+            {
+                data: 'pr_no',
+                render: function(data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-info btn-action" onclick="addMedications(${data}, '${row.p_name}', '${row.pr_date}')">
+                            <i class="fas fa-pills me-1"></i>Medications
+                        </button>
+                        <button class="btn btn-sm btn-danger btn-action" onclick="deletePrescription(${data})">
+                            <i class="fas fa-trash me-1"></i>Delete
+                        </button>
+                    `;
+                }
+            }
+        ]
+    });
+
+    // Initialize form submission handler
+    handleFormSubmit(
+        document.getElementById('addPrescriptionForm'),
+        "{{ url_for('add_prescription') }}",
+        table
+    );
+    
+    // Medication form handler
+    $('#addMedicationForm').submit(function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const prNo = formData.get('pr_no');
+        
+        fetch('/add_prescription_drug', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                this.reset();
+                document.getElementById('pr_no').value = prNo; // Restore pr_no
+                loadMedications(prNo);
+                showAlert('Medication added successfully', 'success');
+            } else {
+                showAlert('Error adding medication', 'danger');
+            }
+        })
+        .catch(error => showAlert('Error adding medication', 'danger'));
+    });
+});
+
+function addMedications(prNo, patientName, prDate) {
+    document.getElementById('pr_no').value = prNo;
+    
+    // Update modal title
+    document.querySelector('#drugsModal .modal-title').innerHTML = 
+        `<i class="fas fa-pills me-2"></i>Medications for ${patientName} (${prDate})`;
+    
+    // Load existing medications
+    loadMedications(prNo);
+    
+    // Show modal
+    new bootstrap.Modal(document.getElementById('drugsModal')).show();
+}
+
+function loadMedications(prNo) {
+    fetch(`/prescription_drugs/${prNo}`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('#medicationsTable tbody');
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No medications prescribed yet</td></tr>';
+            } else {
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${item.pc_name || '-'}</td>
+                            <td>${item.trade_name || '-'}</td>
+                            <td>${item.quantity || '-'}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" 
+                                    onclick="deleteMedication('${item.pc_name}', '${item.trade_name}', ${prNo})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        })
+        .catch(error => showAlert('Error loading medications', 'danger'));
+}
+
+function deleteMedication(pcName, tradeName, prNo) {
+    if (confirm('Are you sure you want to delete this medication?')) {
+        fetch(`/delete_prescription_drug/${pcName}/${tradeName}/${prNo}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                loadMedications(prNo);
+                showAlert('Medication deleted successfully', 'success');
+            } else {
+                showAlert('Error deleting medication', 'danger');
+            }
+        })
+        .catch(error => showAlert('Error deleting medication', 'danger'));
+    }
+}
+
+function deletePrescription(prNo) {
+    if (confirm('Are you sure you want to delete this prescription?')) {
+        fetch(`/delete_prescription/${prNo}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                $('#prescriptionTable').DataTable().ajax.reload();
+                showAlert('Prescription deleted successfully', 'success');
+            } else {
+                showAlert('Error deleting prescription', 'danger');
+            }
+        })
+        .catch(error => showAlert('Error deleting prescription', 'danger'));
+    }
+}
+</script>
+{% endblock %} 

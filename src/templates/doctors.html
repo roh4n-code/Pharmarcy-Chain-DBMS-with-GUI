@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-user-md me-2"></i>Manage Doctors
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-plus-circle me-2"></i>Add New Doctor
+                </h5>
+                <form id="addDoctorForm" action="{{ url_for('add_doctor') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="d_name" class="form-label">Doctor Name</label>
+                        <input type="text" class="form-control" id="d_name" name="d_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="spec" class="form-label">Specialization</label>
+                        <input type="text" class="form-control" id="spec" name="spec" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="years_of_exp" class="form-label">Years of Experience</label>
+                        <input type="number" class="form-control" id="years_of_exp" name="years_of_exp" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="d_aadhar" class="form-label">Aadhar Number</label>
+                        <input type="text" class="form-control" id="d_aadhar" name="d_aadhar" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Doctor
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-list me-2"></i>Doctor List
+                </h5>
+                <div class="table-responsive">
+                    <table id="doctorTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Experience</th>
+                                <th>Aadhar</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Patients Modal -->
+<div class="modal fade" id="patientsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-users me-2"></i>Doctor's Patients
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table" id="patientsTable">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Age</th>
+                                <th>Address</th>
+                                <th>Aadhar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize DataTable with common config
+$(document).ready(function() {
+    const table = $('#doctorTable').DataTable({
+        ...dataTableConfig,
+        ajax: {
+            url: '/doctors',
+            dataSrc: ''
+        },
+        columns: [
+            { data: 'd_name' },
+            { data: 'spec' },
+            { 
+                data: 'years_of_exp',
+                render: function(data) {
+                    return `${data} years`;
+                }
+            },
+            { data: 'd_aadhar' },
+            {
+                data: 'd_aadhar',
+                render: function(data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-info btn-action" onclick="viewPatients('${data}', '${row.d_name}')">
+                            <i class="fas fa-users me-1"></i>View Patients
+                        </button>
+                        <button class="btn btn-sm btn-danger btn-action" onclick="deleteDoctor('${data}')">
+                            <i class="fas fa-trash me-1"></i>Delete
+                        </button>
+                    `;
+                }
+            }
+        ]
+    });
+
+    // Initialize form submission handler
+    handleFormSubmit(
+        document.getElementById('addDoctorForm'),
+        "{{ url_for('add_doctor') }}",
+        table
+    );
+});
+
+function viewPatients(doctorAadhar, doctorName) {
+    fetch(`/doctor_patients/${doctorAadhar}`)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('#patientsTable tbody');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center">No patients assigned to this doctor</td></tr>';
+            } else {
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${item.p_name || '-'}</td>
+                            <td>${item.p_age || '-'}</td>
+                            <td>${item.p_add || '-'}</td>
+                            <td>${item.p_aadhar || '-'}</td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            // Set modal title with doctor name
+            document.querySelector('#patientsModal .modal-title').innerHTML = 
+                `<i class="fas fa-users me-2"></i>Patients of Dr. ${doctorName}`;
+                
+            new bootstrap.Modal(document.getElementById('patientsModal')).show();
+        })
+        .catch(error => showAlert('Error loading patient data', 'danger'));
+}
+
+function deleteDoctor(doctorAadhar) {
+    if (confirm('Are you sure you want to delete this doctor?')) {
+        fetch(`/delete_doctor/${doctorAadhar}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    $('#doctorTable').DataTable().ajax.reload();
+                    showAlert('Doctor deleted successfully', 'success');
+                } else {
+                    showAlert('Error deleting doctor', 'danger');
+                }
+            })
+            .catch(error => showAlert('Error deleting doctor', 'danger'));
+    }
+}
+</script>
+{% endblock %} 

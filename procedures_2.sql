@@ -64,3 +64,10 @@ CREATE PROCEDURE d_patient(IN d_aadhar varchar(12))
     JOIN Doctor d on d.d_aadhar = p.p_doc_aid
 	WHERE d_aadhar= p.p_doc_aid;
 	end//
+
+delimiter //
+CREATE PROCEDURE get_pharmacies()
+    begin
+    SELECT ph_name, ph_add, ph_contact
+    FROM Pharmacy;
+    end//

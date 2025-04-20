@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-prescription me-2"></i>Prescription Details
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-search me-2"></i>Find Prescription
+                </h5>
+                <form id="detailsForm" action="{{ url_for('prescription_details') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="p_aadhar" class="form-label">Patient Aadhar</label>
+                        <input type="text" class="form-control" id="p_aadhar" name="p_aadhar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pr_date" class="form-label">Prescription Date</label>
+                        <input type="date" class="form-control" id="pr_date" name="pr_date" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Find Details
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-pills me-2"></i>Prescription Medications
+                </h5>
+                <div class="table-responsive">
+                    <table id="detailsTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Company</th>
+                                <th>Drug</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if details %}
+                                {% for item in details %}
+                                <tr>
+                                    <td>{{ item.d_name }}</td>
+                                    <td>{{ item.pc_name }}</td>
+                                    <td>{{ item.trade_name }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No details to display. Please search for a prescription.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize DataTable if we have data
+$(document).ready(function() {
+    if ($('#detailsTable tbody tr').length > 0 && !$('#detailsTable tbody tr:first td').hasClass('dataTables_empty')) {
+        $('#detailsTable').DataTable({
+            ...dataTableConfig,
+            paging: true,
+            searching: true
+        });
+    }
+
+    // Form submit handler for AJAX mode
+    $('#detailsForm').submit(function(e) {
+        if (!$(this).hasClass('ajax-form')) {
+            return; // Regular form submission
+        }
+        
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch('{{ url_for("prescription_details") }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            updateDetailsTable(data);
+        })
+        .catch(error => showAlert('Error fetching prescription details', 'danger'));
+    });
+});
+
+// Update the details table with new data
+function updateDetailsTable(data) {
+    // Destroy existing datatable if it exists
+    if ($.fn.DataTable.isDataTable('#detailsTable')) {
+        $('#detailsTable').DataTable().destroy();
+    }
+    
+    const tbody = document.querySelector('#detailsTable tbody');
+    tbody.innerHTML = '';
+    
+    if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">No details found for this prescription</td></tr>';
+    } else {
+        data.forEach(item => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${item.d_name || '-'}</td>
+                    <td>${item.pc_name || '-'}</td>
+                    <td>${item.trade_name || '-'}</td>
+                    <td>${item.quantity || '-'}</td>
+                </tr>
+            `;
+        });
+        
+        // Initialize DataTable on the new data
+        $('#detailsTable').DataTable({
+            ...dataTableConfig,
+            paging: true,
+            searching: true
+        });
+    }
+}
+</script>
+{% endblock %} 

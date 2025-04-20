@@ -11,6 +11,9 @@ INSERT INTO PharmaCompany (pc_name, pc_contact) VALUES
 ('Merck', '+1-908-740-4000'),
 ('AstraZeneca', '+44-20-7604-8000');
 
+INSERT INTO PharmaCompany (pc_name, pc_contact) VALUES ('Medplus' , '6969696969');
+
+
 -- Drugs Data
 INSERT INTO Drugs (pc_name, trade_name, formula) VALUES
 ('Pfizer', 'Lipitor', 'C33H34FN2O5'),

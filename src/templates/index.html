@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1>Pharmacy Management System</h1>
+            <p class="lead">Welcome to the comprehensive pharmacy management solution</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Pharmacies</h5>
+                    <p class="card-text">Manage pharmacy information, locations, and contacts.</p>
+                    <a href="{{ url_for('pharmacies') }}" class="btn btn-primary">View Pharmacies</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Companies</h5>
+                    <p class="card-text">Manage company information and their drug products.</p>
+                    <a href="{{ url_for('companies') }}" class="btn btn-primary">View Companies</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Doctors</h5>
+                    <p class="card-text">Manage doctor information and their patients.</p>
+                    <a href="{{ url_for('doctors') }}" class="btn btn-primary">View Doctors</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Patients</h5>
+                    <p class="card-text">Manage patient information and their prescriptions.</p>
+                    <a href="{{ url_for('patients') }}" class="btn btn-primary">View Patients</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Prescriptions</h5>
+                    <p class="card-text">Manage prescriptions and prescribed medications.</p>
+                    <a href="{{ url_for('prescriptions') }}" class="btn btn-primary">View Prescriptions</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Reports</h5>
+                    <p class="card-text">Generate and view patient prescription reports.</p>
+                    <a href="{{ url_for('patient_report') }}" class="btn btn-primary">View Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

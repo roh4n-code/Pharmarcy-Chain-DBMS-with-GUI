@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - NOVA</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">NOVA Pharmacy System</div>
+            <nav>
+                <ul>
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="/pharma-companies">Pharmaceutical Companies</a></li>
+                    <li><a href="/drugs">Drugs</a></li>
+                    <li><a href="/pharmacies">Pharmacies</a></li>
+                    <li><a href="/contracts">Contracts</a></li>
+                    <li><a href="/doctors">Doctors</a></li>
+                    <li><a href="/patients">Patients</a></li>
+                    <li><a href="/prescriptions">Prescriptions</a></li>
+                    <li><a href="/reports" class="active">Reports</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <h1>Reports</h1>
+            
+            <div class="report-form">
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="reportType">Report Type</label>
+                        <select id="reportType" name="reportType" required>
+                            <option value="">Select Report Type</option>
+                            <option value="inventory">Inventory Report</option>
+                            <option value="sales">Sales Report</option>
+                            <option value="prescriptions">Prescription Report</option>
+                            <option value="patients">Patient Report</option>
+                            <option value="doctors">Doctor Report</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateRange">Date Range</label>
+                        <select id="dateRange" name="dateRange" required>
+                            <option value="">Select Date Range</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group custom-date-range" style="display: none;">
+                        <div class="date-inputs">
+                            <div>
+                                <label for="startDate">Start Date</label>
+                                <input type="date" id="startDate" name="startDate">
+                            </div>
+                            <div>
+                                <label for="endDate">End Date</label>
+                                <input type="date" id="endDate" name="endDate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pharmacy">Pharmacy (Optional)</label>
+                        <select id="pharmacy" name="pharmacy">
+                            <option value="">All Pharmacies</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Generate Report</button>
+                </form>
+            </div>
+
+            <div class="report-results" style="display: none;">
+                <div class="report-header">
+                    <h2 id="reportTitle">Report Title</h2>
+                    <div class="report-actions">
+                        <button id="exportPDF" class="btn-secondary">Export as PDF</button>
+                        <button id="exportCSV" class="btn-secondary">Export as CSV</button>
+                    </div>
+                </div>
+                
+                <div class="report-content">
+                    <table id="reportTable">
+                        <thead>
+                            <tr>
+                                <!-- Table headers will be populated dynamically -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table content will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 NOVA Pharmacy Management System</p>
+    </footer>
+
+    <script src="/static/js/reports.js"></script>
+</body>
+</html> 

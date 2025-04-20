@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drugs - NOVA</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">NOVA Pharmacy System</div>
+            <nav>
+                <ul>
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="/pharma-companies">Pharmaceutical Companies</a></li>
+                    <li><a href="/drugs" class="active">Drugs</a></li>
+                    <li><a href="/pharmacies">Pharmacies</a></li>
+                    <li><a href="/contracts">Contracts</a></li>
+                    <li><a href="/doctors">Doctors</a></li>
+                    <li><a href="/patients">Patients</a></li>
+                    <li><a href="/prescriptions">Prescriptions</a></li>
+                    <li><a href="/reports">Reports</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <h1>Drug Management</h1>
+            
+            <div class="action-bar">
+                <button id="addDrugBtn" class="btn-primary">Add New Drug</button>
+            </div>
+            
+            <div class="table-container">
+                <table id="drugsTable">
+                    <thead>
+                        <tr>
+                            <th>Drug Name</th>
+                            <th>Manufacturer</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be loaded here via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Modal for adding/editing drugs -->
+        <div id="drugModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modalTitle">Add New Drug</h2>
+                <form id="drugForm">
+                    <div class="form-group">
+                        <label for="drugName">Drug Name:</label>
+                        <input type="text" id="drugName" name="drug_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="manufacturer">Manufacturer:</label>
+                        <select id="manufacturer" name="manufacturer" required>
+                            <!-- Options will be loaded via JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <input type="text" id="category" name="category">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock">Stock:</label>
+                        <input type="number" id="stock" name="stock" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Save</button>
+                        <button type="button" class="btn-secondary close-modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 NOVA Pharmacy Management System</p>
+    </footer>
+
+    <script src="/static/js/drugs.js"></script>
+</body>
+</html>

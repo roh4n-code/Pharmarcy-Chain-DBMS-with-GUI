@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-chart-bar me-2"></i>Patient Report
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-search me-2"></i>Generate Report
+                </h5>
+                <form id="reportForm" action="{{ url_for('patient_report') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="p_aadhar" class="form-label">Patient Aadhar</label>
+                        <input type="text" class="form-control" id="p_aadhar" name="p_aadhar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-file-medical me-2"></i>Generate Report
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-clipboard-list me-2"></i>Prescription Report
+                </h5>
+                <div class="table-responsive">
+                    <table id="reportTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Prescription #</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if report %}
+                                {% for item in report %}
+                                <tr>
+                                    <td>{{ item.pr_no }}</td>
+                                    <td>{{ item.d_name }}</td>
+                                    <td>{{ item.pr_date }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info btn-action" 
+                                            onclick="viewDetails('{{ item.p_id }}', '{{ item.pr_date }}')">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No data to display. Please generate a report.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Prescription Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-prescription me-2"></i>Prescription Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table" id="detailsTable">
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Company</th>
+                                <th>Drug</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize DataTable if we have data
+$(document).ready(function() {
+    if ($('#reportTable tbody tr').length > 0 && !$('#reportTable tbody tr:first td').hasClass('dataTables_empty')) {
+        $('#reportTable').DataTable({
+            ...dataTableConfig,
+            paging: true,
+            searching: true
+        });
+    }
+
+    // Form submit handler
+    $('#reportForm').submit(function(e) {
+        if (!$(this).hasClass('ajax-form')) {
+            return; // Regular form submission
+        }
+        
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch('{{ url_for("patient_report") }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            updateReportTable(data);
+        })
+        .catch(error => showAlert('Error generating report', 'danger'));
+    });
+});
+
+// Update the report table with new data
+function updateReportTable(data) {
+    // Destroy existing datatable if it exists
+    if ($.fn.DataTable.isDataTable('#reportTable')) {
+        $('#reportTable').DataTable().destroy();
+    }
+    
+    const tbody = document.querySelector('#reportTable tbody');
+    tbody.innerHTML = '';
+    
+    if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">No prescriptions found for this patient</td></tr>';
+    } else {
+        data.forEach(item => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${item.pr_no || '-'}</td>
+                    <td>${item.d_name || '-'}</td>
+                    <td>${item.pr_date || '-'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info btn-action" onclick="viewDetails('${item.p_id}', '${item.pr_date}')">
+                            <i class="fas fa-eye me-1"></i>View Details
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        // Initialize DataTable on the new data
+        $('#reportTable').DataTable({
+            ...dataTableConfig,
+            paging: true,
+            searching: true
+        });
+    }
+}
+
+// View prescription details
+function viewDetails(patientAadhar, prDate) {
+    const formData = new FormData();
+    formData.append('p_aadhar', patientAadhar);
+    formData.append('pr_date', prDate);
+    
+    fetch('{{ url_for("prescription_details") }}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tbody = document.querySelector('#detailsTable tbody');
+        tbody.innerHTML = '';
+        
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">No details found for this prescription</td></tr>';
+        } else {
+            data.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.d_name || '-'}</td>
+                        <td>${item.pc_name || '-'}</td>
+                        <td>${item.trade_name || '-'}</td>
+                        <td>${item.quantity || '-'}</td>
+                    </tr>
+                `;
+            });
+        }
+        
+        new bootstrap.Modal(document.getElementById('detailsModal')).show();
+    })
+    .catch(error => showAlert('Error loading prescription details', 'danger'));
+}
+</script>
+{% endblock %} 
