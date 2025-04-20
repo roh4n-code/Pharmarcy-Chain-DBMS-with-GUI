@@ -7,7 +7,7 @@ def get_db_connection():
             host='localhost',
             database='pharmadb',
             user='root',  # You'll need to change this
-            password='Mamatha@0206'   # You'll need to change this
+            password=''   # You'll need to change this
         )
         return connection
     except Error as e:
