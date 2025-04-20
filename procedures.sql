@@ -100,7 +100,7 @@ delimiter //
 create procedure update_doc(in d_nam varchar(50), spe varchar(30), years_of_ex INT, d_aadha varchar(12))
 begin
 update Doctor
-set d_name = d_name, spec = spec, years_of_exp = years_of_ex
+set d_name = d_name, spec = spe, years_of_exp = years_of_ex
 where d_aadhar = d_aadha;
 end // 
 
@@ -119,7 +119,7 @@ create procedure update_contr(in pc_nam varchar(50), start_dat date, end_dat dat
 begin
 update Contract
 set end_date = end_dat, content = conten, supervisor = superviso
-where pc_name = pc_nam and ph_name = pc_nam;
+where pc_name = pc_nam and ph_name = ph_nam;
 end //
 
 
@@ -218,7 +218,7 @@ delimiter //
 create procedure del_ph(in ph_nam varchar(50))
 begin
 delete from Pharmacy
-where ph_name = pc_nam;
+where ph_name = ph_nam;
 end //
 
 
