@@ -364,6 +364,15 @@ def doctor_patients(d_aadhar):
         app.logger.error(f"Error fetching doctor's patients: {str(e)}")
         return jsonify([]), 500
 
+@app.route('/patient_prescriptions/<p_aadhar>')
+def patient_prescriptions(p_aadhar):
+    try:
+        prescriptions = execute_procedure('get_patient_prescriptions', [p_aadhar])
+        return jsonify(prescriptions if prescriptions else [])
+    except Exception as e:
+        app.logger.error(f"Error fetching patient prescriptions: {str(e)}")
+        return jsonify([]), 500
+
 @app.route('/test_db')
 def test_db():
     try:

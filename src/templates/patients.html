@@ -141,20 +141,8 @@ $(document).ready(function() {
 });
 
 function viewPrescriptions(patientAadhar, patientName) {
-    // Using the report endpoint to get prescriptions
-    const today = new Date();
-    const pastYear = new Date();
-    pastYear.setFullYear(today.getFullYear() - 1);
-    
-    const formData = new FormData();
-    formData.append('p_aadhar', patientAadhar);
-    formData.append('start_date', pastYear.toISOString().split('T')[0]);
-    formData.append('end_date', today.toISOString().split('T')[0]);
-    
-    fetch('/patient_report', {
-        method: 'POST',
-        body: formData
-    })
+    // Using the dedicated endpoint to get patient prescriptions
+    fetch(`/patient_prescriptions/${patientAadhar}`)
     .then(response => response.json())
     .then(data => {
         const tbody = document.querySelector('#prescriptionsTable tbody');
@@ -166,8 +154,12 @@ function viewPrescriptions(patientAadhar, patientName) {
                 tbody.innerHTML += `
                     <tr>
                         <td>${item.pr_date || '-'}</td>
-                        <td>${item.d_name || '-'}</td>
-                        <td>${item.medications || '-'}</td>
+                        <td>${item.doctor_name || '-'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" onclick="viewPrescriptionDetails('${patientAadhar}', '${item.pr_date}')">
+                                <i class="fas fa-eye me-1"></i>Details
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
@@ -179,7 +171,37 @@ function viewPrescriptions(patientAadhar, patientName) {
             
         new bootstrap.Modal(document.getElementById('prescriptionsModal')).show();
     })
-    .catch(error => showAlert('Error loading prescription data', 'danger'));
+    .catch(error => {
+        console.error(error);
+        showAlert('Error loading prescription data', 'danger');
+    });
+}
+
+// Add a function to view prescription details
+function viewPrescriptionDetails(patientAadhar, prescriptionDate) {
+    const formData = new FormData();
+    formData.append('p_aadhar', patientAadhar);
+    formData.append('pr_date', prescriptionDate);
+    
+    fetch('/prescription_details', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the prescription details display
+        if (data.length === 0) {
+            showAlert('No details found for this prescription', 'warning');
+        } else {
+            // You could open another modal or display the details in some way
+            alert(`Prescription details: ${JSON.stringify(data)}`);
+            // In a real implementation, you'd format this nicely in a modal
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        showAlert('Error loading prescription details', 'danger');
+    });
 }
 
 function deletePatient(patientAadhar) {

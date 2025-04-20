@@ -168,10 +168,10 @@ END //
 
 -- FIXED: Updated to take prescription ID instead of date, patient ID and doctor ID
 DELIMITER //
-CREATE PROCEDURE del_presc(IN pr_no INT)
+CREATE PROCEDURE del_presc(IN pr_id INT)
 BEGIN
     DELETE FROM Prescription
-    WHERE Prescription.pr_no = pr_no;
+    WHERE pr_no = pr_id;
 END //
 
 DELIMITER //
@@ -311,4 +311,16 @@ BEGIN
     SELECT pd.pc_name, pd.trade_name, pd.quantity
     FROM Prescription_Drugs pd
     WHERE pd.pr_no = prescription_id;
-END // 
+END //
+
+DROP PROCEDURE IF EXISTS get_patient_prescriptions;
+DELIMITER //
+CREATE PROCEDURE get_patient_prescriptions(IN patient_id VARCHAR(12))
+BEGIN
+    SELECT pr.pr_no, pr.pr_date, d.d_name as doctor_name
+    FROM Prescription pr
+    JOIN Doctor d ON pr.d_id = d.d_aadhar
+    WHERE pr.p_id = patient_id
+    ORDER BY pr.pr_date DESC;
+END //
+DELIMITER ; 

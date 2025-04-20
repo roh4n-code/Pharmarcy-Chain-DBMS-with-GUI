@@ -7,4 +7,13 @@ BEGIN
     FROM pharmacy;
 END //
 
-DELIMITER ; 
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS del_presc;
+DELIMITER //
+CREATE PROCEDURE del_presc(IN pr_id INT)
+BEGIN
+    DELETE FROM Prescription
+    WHERE pr_no = pr_id;
+END //
+DELIMITER ;
