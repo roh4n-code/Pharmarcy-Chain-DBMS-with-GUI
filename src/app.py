@@ -164,7 +164,7 @@ def add_doctor():
         try:
             d_name = request.form['d_name']
             spec = request.form['spec']
-            years_of_exp = request.form['years_of_exp']
+            years_of_exp = int(request.form['years_of_exp'])
             d_aadhar = request.form['d_aadhar']
             
             result = execute_procedure('add_doc', [d_name, spec, years_of_exp, d_aadhar])
@@ -176,6 +176,10 @@ def add_doctor():
                 flash('Error adding doctor', 'error')
                 if is_ajax():
                     return jsonify({'success': False}), 400
+        except ValueError:
+            flash('Years of experience must be a number greater than 0', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': 'Years of experience must be a number'}), 400
         except Exception as e:
             flash(f'Error: {str(e)}', 'error')
             if is_ajax():

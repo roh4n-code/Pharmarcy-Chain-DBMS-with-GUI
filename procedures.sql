@@ -100,9 +100,9 @@ delimiter //
 create procedure update_doc(in d_nam varchar(50), spe varchar(30), years_of_ex INT, d_aadha varchar(12))
 begin
 update Doctor
-set d_name = d_name, spec = spe, years_of_exp = years_of_ex
+set d_name = d_nam, spec = spe, years_of_exp = years_of_ex
 where d_aadhar = d_aadha;
-end // 
+end //
 
 
 delimiter //
