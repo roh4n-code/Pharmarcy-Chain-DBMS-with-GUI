@@ -1,74 +1,144 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="row mb-4">
+<!-- Hero Section
+<div class="hero-section py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold text-primary mb-3">Pharmacy Management System</h1>
+                <p class="lead fs-4 mb-4">A comprehensive solution for managing your pharmacy operations efficiently and securely.</p>
+                <div class="d-flex gap-3">
+                    <a href="#features" class="btn btn-primary btn-lg">Explore Features</a>
+                    <a href="{{ url_for('pharmacies') }}" class="btn btn-outline-primary btn-lg">Get Started</a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="{{ url_for('static', filename='img/pharmacy-illustration.svg') }}" alt="Pharmacy Illustration" class="img-fluid" onerror="this.src='https://via.placeholder.com/600x400?text=Pharmacy+Management';this.onerror='';">
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- Features Section -->
+<div class="container" id="features">
+    <div class="row mb-5">
         <div class="col-12 text-center">
-            <h1>Pharmacy Management System</h1>
-            <p class="lead">Welcome to the comprehensive pharmacy management solution</p>
+            <h2 class="section-title">Complete Pharmacy Management</h2>
+            <p class="section-subtitle">Everything you need to manage your pharmacy operations</p>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3 text-primary">
+                        <i class="fas fa-store fa-2x"></i>
+                    </div>
                     <h5 class="card-title">Pharmacies</h5>
-                    <p class="card-text">Manage pharmacy information, locations, and contacts.</p>
-                    <a href="{{ url_for('pharmacies') }}" class="btn btn-primary">View Pharmacies</a>
+                    <p class="card-text">Efficiently manage pharmacy information, locations, inventory, and contact details in one place.</p>
+                    <a href="{{ url_for('pharmacies') }}" class="btn btn-primary mt-auto">
+                        Manage Pharmacies <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3 text-primary">
+                        <i class="fas fa-building fa-2x"></i>
+                    </div>
                     <h5 class="card-title">Companies</h5>
-                    <p class="card-text">Manage company information and their drug products.</p>
-                    <a href="{{ url_for('companies') }}" class="btn btn-primary">View Companies</a>
+                    <p class="card-text">Track pharmaceutical companies and their products with detailed information and supply records.</p>
+                    <a href="{{ url_for('companies') }}" class="btn btn-primary mt-auto">
+                        Manage Companies <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3 text-primary">
+                        <i class="fas fa-user-md fa-2x"></i>
+                    </div>
                     <h5 class="card-title">Doctors</h5>
-                    <p class="card-text">Manage doctor information and their patients.</p>
-                    <a href="{{ url_for('doctors') }}" class="btn btn-primary">View Doctors</a>
+                    <p class="card-text">Maintain a comprehensive database of doctors, their specialties, and prescription history.</p>
+                    <a href="{{ url_for('doctors') }}" class="btn btn-primary mt-auto">
+                        Manage Doctors <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3 text-primary">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
                     <h5 class="card-title">Patients</h5>
-                    <p class="card-text">Manage patient information and their prescriptions.</p>
-                    <a href="{{ url_for('patients') }}" class="btn btn-primary">View Patients</a>
+                    <p class="card-text">Store and access patient information, medical history, and prescription records securely.</p>
+                    <a href="{{ url_for('patients') }}" class="btn btn-primary mt-auto">
+                        Manage Patients <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3 text-primary">
+                        <i class="fas fa-prescription fa-2x"></i>
+                    </div>
                     <h5 class="card-title">Prescriptions</h5>
-                    <p class="card-text">Manage prescriptions and prescribed medications.</p>
-                    <a href="{{ url_for('prescriptions') }}" class="btn btn-primary">View Prescriptions</a>
+                    <p class="card-text">Digitally manage prescriptions, refills, and medication records for improved accuracy.</p>
+                    <a href="{{ url_for('prescriptions') }}" class="btn btn-primary mt-auto">
+                        Manage Prescriptions <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon mb-3 text-primary">
+                        <i class="fas fa-chart-bar fa-2x"></i>
+                    </div>
                     <h5 class="card-title">Reports</h5>
-                    <p class="card-text">Generate and view patient prescription reports.</p>
-                    <a href="{{ url_for('patient_report') }}" class="btn btn-primary">View Reports</a>
+                    <p class="card-text">Generate comprehensive reports on prescriptions, inventory, and patient medication history.</p>
+                    <a href="{{ url_for('patient_report') }}" class="btn btn-primary mt-auto">
+                        View Reports <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover effect to feature cards
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.classList.add('shadow');
+                this.style.transform = 'translateY(-5px)';
+                this.style.transition = 'all 0.3s ease';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.classList.remove('shadow');
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    });
+</script>
 {% endblock %}
