@@ -71,3 +71,37 @@ CREATE PROCEDURE get_pharmacies()
     SELECT ph_name, ph_add, ph_contact
     FROM Pharmacy;
     end//
+
+delimiter //
+CREATE PROCEDURE get_companies()
+    begin
+    SELECT pc_name, pc_contact
+    FROM PharmaCompany;
+    end//
+
+delimiter //
+CREATE PROCEDURE get_patients_full()
+    begin
+    SELECT p.p_name, p.p_add, p.p_age, p.p_aadhar, p.p_doc_aid, d.d_name
+    FROM Patient p
+    LEFT JOIN Doctor d ON p.p_doc_aid = d.d_aadhar;
+    end//
+
+delimiter //
+CREATE PROCEDURE get_prescriptions()
+    begin
+    SELECT pr.pr_no, pr.pr_date, p.p_name, d.d_name,
+           p.p_aadhar as p_id, d.d_aadhar as d_id
+    FROM Prescription pr
+    JOIN Patient p ON pr.p_id = p.p_aadhar
+    JOIN Doctor d ON pr.d_id = d.d_aadhar
+    ORDER BY pr.pr_date DESC;
+    end//
+
+delimiter //
+CREATE PROCEDURE get_prescription_drugs(IN prescription_id INT)
+    begin
+    SELECT pd.pc_name, pd.trade_name, pd.quantity
+    FROM Prescription_Drugs pd
+    WHERE pd.pr_no = prescription_id;
+    end//

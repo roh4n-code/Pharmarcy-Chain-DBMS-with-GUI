@@ -34,13 +34,8 @@ def home():
 def pharmacies():
     if is_ajax():
         try:
-            # Direct SQL query instead of stored procedure since get_pharmacies doesn't exist
-            conn = get_db_connection()
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("SELECT ph_name, ph_add, ph_contact FROM Pharmacy")
-            pharmacies_list = cursor.fetchall()
-            cursor.close()
-            conn.close()
+            # Use stored procedure instead of direct SQL query
+            pharmacies_list = execute_procedure('get_pharmacies')
             
             if pharmacies_list is None:
                 pharmacies_list = []
@@ -92,13 +87,8 @@ def delete_pharmacy(ph_name):
 def companies():
     if is_ajax():
         try:
-            # Direct SQL query since get_pharma_companies doesn't exist
-            conn = get_db_connection()
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("SELECT pc_name, pc_contact FROM PharmaCompany")
-            companies_list = cursor.fetchall()
-            cursor.close()
-            conn.close()
+            # Use stored procedure instead of direct SQL query
+            companies_list = execute_procedure('get_companies')
             
             if companies_list is None:
                 companies_list = []
@@ -205,18 +195,8 @@ def delete_doctor(d_aadhar):
 def patients():
     if is_ajax():
         try:
-            # p_view only returns p_name and p_aadhar, we need more fields
-            # So join with doctor table to get more information
-            conn = get_db_connection()
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("""
-                SELECT p.p_name, p.p_add, p.p_age, p.p_aadhar, p.p_doc_aid, d.d_name
-                FROM Patient p
-                LEFT JOIN Doctor d ON p.p_doc_aid = d.d_aadhar
-            """)
-            patients_list = cursor.fetchall()
-            cursor.close()
-            conn.close()
+            # Use stored procedure to get full patient information
+            patients_list = execute_procedure('get_patients_full')
             if patients_list is None:
                 patients_list = []
             return jsonify(patients_list)
@@ -269,20 +249,8 @@ def delete_patient(p_aadhar):
 def prescriptions():
     if is_ajax():
         try:
-            # pr_details requires parameters, so we'll use a direct query
-            conn = get_db_connection()
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("""
-                SELECT pr.pr_no, pr.pr_date, p.p_name, d.d_name,
-                       p.p_aadhar as p_id, d.d_aadhar as d_id
-                FROM Prescription pr
-                JOIN Patient p ON pr.p_id = p.p_aadhar
-                JOIN Doctor d ON pr.d_id = d.d_aadhar
-                ORDER BY pr.pr_date DESC
-            """)
-            prescriptions_list = cursor.fetchall()
-            cursor.close()
-            conn.close()
+            # Use stored procedure to get prescription list
+            prescriptions_list = execute_procedure('get_prescriptions')
             if prescriptions_list is None:
                 prescriptions_list = []
             return jsonify(prescriptions_list)
@@ -320,7 +288,8 @@ def add_prescription():
 @app.route('/delete_prescription/<pr_id>', methods=['DELETE'])
 def delete_prescription(pr_id):
     try:
-        result = execute_procedure('del_presc', [pr_id])
+        # Convert pr_id to integer
+        result = execute_procedure('del_presc', [int(pr_id)])
         if result is not None:
             return jsonify({'success': True})
         return jsonify({'success': False}), 400
@@ -453,17 +422,8 @@ def add_prescription_drug():
 @app.route('/prescription_drugs/<pr_no>')
 def prescription_drugs(pr_no):
     try:
-        # Get medications for a prescription
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("""
-            SELECT pd.pc_name, pd.trade_name, pd.quantity
-            FROM Prescription_Drugs pd
-            WHERE pd.pr_no = %s
-        """, (pr_no,))
-        medications = cursor.fetchall()
-        cursor.close()
-        conn.close()
+        # Use stored procedure to get prescription drugs
+        medications = execute_procedure('get_prescription_drugs', [int(pr_no)])
         return jsonify(medications if medications else [])
     except Exception as e:
         app.logger.error(f"Error fetching prescription drugs: {str(e)}")
