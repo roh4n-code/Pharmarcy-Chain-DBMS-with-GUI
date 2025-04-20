@@ -97,6 +97,43 @@
     </div>
 </div>
 
+<!-- Update Doctor Modal -->
+<div class="modal fade" id="updateDoctorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit me-2"></i>Update Doctor
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateDoctorForm" action="{{ url_for('update_doctor') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="update_d_aadhar" class="form-label">Aadhar Number</label>
+                        <input type="text" class="form-control" id="update_d_aadhar" name="d_aadhar" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_d_name" class="form-label">Doctor Name</label>
+                        <input type="text" class="form-control" id="update_d_name" name="d_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_spec" class="form-label">Specialization</label>
+                        <input type="text" class="form-control" id="update_spec" name="spec" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_years_of_exp" class="form-label">Years of Experience</label>
+                        <input type="number" class="form-control" id="update_years_of_exp" name="years_of_exp" min="0" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Doctor
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Initialize DataTable with common config
 $(document).ready(function() {
@@ -123,6 +160,9 @@ $(document).ready(function() {
                         <button class="btn btn-sm btn-info btn-action" onclick="viewPatients('${data}', '${row.d_name}')">
                             <i class="fas fa-users me-1"></i>View Patients
                         </button>
+                        <button class="btn btn-sm btn-warning btn-action" onclick="showUpdateModal('${data}', '${row.d_name}', '${row.spec}', ${row.years_of_exp})">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
                         <button class="btn btn-sm btn-danger btn-action" onclick="deleteDoctor('${data}')">
                             <i class="fas fa-trash me-1"></i>Delete
                         </button>
@@ -138,6 +178,39 @@ $(document).ready(function() {
         "{{ url_for('add_doctor') }}",
         table
     );
+    
+    // Initialize update form submission handler
+    handleFormSubmit(
+        document.getElementById('updateDoctorForm'),
+        "{{ url_for('update_doctor') }}",
+        table
+    );
+    
+    // Additional handler for update form to ensure table refresh
+    $('#updateDoctorForm').submit(function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch("{{ url_for('update_doctor') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Close the modal
+                bootstrap.Modal.getInstance(document.getElementById('updateDoctorModal')).hide();
+                // Reload the table data
+                table.ajax.reload();
+                showAlert('Doctor updated successfully', 'success');
+            } else {
+                showAlert('Error updating doctor', 'danger');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            showAlert('Error updating doctor', 'danger');
+        });
+    });
 });
 
 function viewPatients(doctorAadhar, doctorName) {
@@ -183,6 +256,15 @@ function deleteDoctor(doctorAadhar) {
             })
             .catch(error => showAlert('Error deleting doctor', 'danger'));
     }
+}
+
+function showUpdateModal(d_aadhar, d_name, spec, years_of_exp) {
+    document.getElementById('update_d_aadhar').value = d_aadhar;
+    document.getElementById('update_d_name').value = d_name;
+    document.getElementById('update_spec').value = spec;
+    document.getElementById('update_years_of_exp').value = years_of_exp;
+    
+    new bootstrap.Modal(document.getElementById('updateDoctorModal')).show();
 }
 </script>
 {% endblock %} 

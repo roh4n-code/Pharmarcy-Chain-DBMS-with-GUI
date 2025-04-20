@@ -86,6 +86,36 @@
     </div>
 </div>
 
+<!-- Update Company Modal -->
+<div class="modal fade" id="updateCompanyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit me-2"></i>Update Company
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateCompanyForm" action="{{ url_for('update_company') }}" method="POST">
+                    <input type="hidden" id="update_old_pc_name" name="old_pc_name">
+                    <div class="mb-3">
+                        <label for="update_pc_name" class="form-label">Company Name</label>
+                        <input type="text" class="form-control" id="update_pc_name" name="pc_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_pc_contact" class="form-label">Contact Number</label>
+                        <input type="tel" class="form-control" id="update_pc_contact" name="pc_contact" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Company
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Initialize DataTable with common config
 $(document).ready(function() {
@@ -100,10 +130,13 @@ $(document).ready(function() {
             { data: 'pc_contact' },
             {
                 data: 'pc_name',
-                render: function(data) {
+                render: function(data, type, row) {
                     return `
                         <button class="btn btn-sm btn-info btn-action" onclick="viewDrugs('${data}')">
                             <i class="fas fa-pills me-1"></i>View Drugs
+                        </button>
+                        <button class="btn btn-sm btn-warning btn-action" onclick="showUpdateModal('${data}', '${row.pc_contact}')">
+                            <i class="fas fa-edit me-1"></i>Edit
                         </button>
                         <button class="btn btn-sm btn-danger btn-action" onclick="deleteCompany('${data}')">
                             <i class="fas fa-trash me-1"></i>Delete
@@ -120,6 +153,39 @@ $(document).ready(function() {
         "{{ url_for('add_company') }}",
         table
     );
+    
+    // Initialize update form submission handler
+    handleFormSubmit(
+        document.getElementById('updateCompanyForm'),
+        "{{ url_for('update_company') }}",
+        table
+    );
+    
+    // Additional handler for update form to ensure table refresh
+    $('#updateCompanyForm').submit(function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch("{{ url_for('update_company') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Close the modal
+                bootstrap.Modal.getInstance(document.getElementById('updateCompanyModal')).hide();
+                // Reload the table data
+                table.ajax.reload();
+                showAlert('Company updated successfully', 'success');
+            } else {
+                showAlert('Error updating company', 'danger');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            showAlert('Error updating company', 'danger');
+        });
+    });
 });
 
 function viewDrugs(companyName) {
@@ -159,6 +225,14 @@ function deleteCompany(companyName) {
             })
             .catch(error => showAlert('Error deleting company', 'danger'));
     }
+}
+
+function showUpdateModal(pc_name, pc_contact) {
+    document.getElementById('update_old_pc_name').value = pc_name;
+    document.getElementById('update_pc_name').value = pc_name;
+    document.getElementById('update_pc_contact').value = pc_contact;
+    
+    new bootstrap.Modal(document.getElementById('updateCompanyModal')).show();
 }
 </script>
 {% endblock %} 

@@ -119,6 +119,40 @@
     </div>
 </div>
 
+<!-- Update Prescription Modal -->
+<div class="modal fade" id="updatePrescriptionModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit me-2"></i>Update Prescription
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updatePrescriptionForm" action="{{ url_for('update_prescription') }}" method="POST">
+                    <input type="hidden" id="update_pr_id" name="pr_id">
+                    <div class="mb-3">
+                        <label for="update_pr_date" class="form-label">Prescription Date</label>
+                        <input type="date" class="form-control" id="update_pr_date" name="pr_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_p_id" class="form-label">Patient Aadhar</label>
+                        <input type="text" class="form-control" id="update_p_id" name="p_id" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_d_id" class="form-label">Doctor Aadhar</label>
+                        <input type="text" class="form-control" id="update_d_id" name="d_id" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Prescription
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Initialize DataTable with common config
 $(document).ready(function() {
@@ -140,6 +174,9 @@ $(document).ready(function() {
                         <button class="btn btn-sm btn-info btn-action" onclick="addMedications(${data}, '${row.p_name}', '${row.pr_date}')">
                             <i class="fas fa-pills me-1"></i>Medications
                         </button>
+                        <button class="btn btn-sm btn-warning btn-action" onclick="showUpdateModal(${data}, '${row.pr_date}', '${row.p_aadhar}', '${row.d_aadhar}')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
                         <button class="btn btn-sm btn-danger btn-action" onclick="deletePrescription(${data})">
                             <i class="fas fa-trash me-1"></i>Delete
                         </button>
@@ -155,6 +192,39 @@ $(document).ready(function() {
         "{{ url_for('add_prescription') }}",
         table
     );
+    
+    // Initialize update form submission handler
+    handleFormSubmit(
+        document.getElementById('updatePrescriptionForm'),
+        "{{ url_for('update_prescription') }}",
+        table
+    );
+    
+    // Additional handler for update form to ensure table refresh
+    $('#updatePrescriptionForm').submit(function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch("{{ url_for('update_prescription') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Close the modal
+                bootstrap.Modal.getInstance(document.getElementById('updatePrescriptionModal')).hide();
+                // Reload the table data
+                table.ajax.reload();
+                showAlert('Prescription updated successfully', 'success');
+            } else {
+                showAlert('Error updating prescription', 'danger');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            showAlert('Error updating prescription', 'danger');
+        });
+    });
     
     // Medication form handler
     $('#addMedicationForm').submit(function(e) {
@@ -256,6 +326,19 @@ function deletePrescription(prNo) {
         })
         .catch(error => showAlert('Error deleting prescription', 'danger'));
     }
+}
+
+function showUpdateModal(pr_id, pr_date, p_id, d_id) {
+    // Format the date for the date input (yyyy-MM-dd)
+    const dateObj = new Date(pr_date);
+    const formattedDate = dateObj.toISOString().split('T')[0];
+    
+    document.getElementById('update_pr_id').value = pr_id;
+    document.getElementById('update_pr_date').value = formattedDate;
+    document.getElementById('update_p_id').value = p_id;
+    document.getElementById('update_d_id').value = d_id;
+    
+    new bootstrap.Modal(document.getElementById('updatePrescriptionModal')).show();
 }
 </script>
 {% endblock %} 

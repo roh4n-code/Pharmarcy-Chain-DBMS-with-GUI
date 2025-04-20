@@ -82,6 +82,35 @@ def delete_pharmacy(ph_name):
         app.logger.error(f"Error deleting pharmacy: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/update_pharmacy', methods=['POST'])
+def update_pharmacy():
+    if request.method == 'POST':
+        try:
+            old_ph_name = request.form['old_ph_name']
+            ph_name = request.form['ph_name']
+            ph_add = request.form['ph_add']
+            ph_contact = request.form['ph_contact']
+            
+            # The update_ph procedure expects only the ph_name to update (not the old name)
+            # and then the new values for address and contact
+            result = execute_procedure('update_ph', [ph_name, ph_add, ph_contact])
+            if result is not None:
+                flash('Pharmacy updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating pharmacy', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('pharmacies'))
+
 # Pharmaceutical Company routes
 @app.route('/companies')
 def companies():
@@ -133,6 +162,33 @@ def delete_company(pc_name):
     except Exception as e:
         app.logger.error(f"Error deleting company: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/update_company', methods=['POST'])
+def update_company():
+    if request.method == 'POST':
+        try:
+            old_pc_name = request.form['old_pc_name']
+            pc_name = request.form['pc_name']
+            pc_contact = request.form['pc_contact']
+            
+            # The stored procedure expects pc_name and pc_contact only
+            result = execute_procedure('update_pc', [pc_name, pc_contact])
+            if result is not None:
+                flash('Company updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating company', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('companies'))
 
 # Doctor routes
 @app.route('/doctors')
@@ -190,6 +246,38 @@ def delete_doctor(d_aadhar):
         app.logger.error(f"Error deleting doctor: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/update_doctor', methods=['POST'])
+def update_doctor():
+    if request.method == 'POST':
+        try:
+            d_aadhar = request.form['d_aadhar']
+            d_name = request.form['d_name']
+            spec = request.form['spec']
+            years_of_exp = int(request.form['years_of_exp'])
+            
+            # The stored procedure expects name, specialization, years of experience, and then aadhar
+            result = execute_procedure('update_doc', [d_name, spec, years_of_exp, d_aadhar])
+            if result is not None:
+                flash('Doctor updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating doctor', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except ValueError:
+            flash('Years of experience must be a number greater than 0', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': 'Years of experience must be a number'}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('doctors'))
+
 # Patient routes
 @app.route('/patients')
 def patients():
@@ -244,6 +332,35 @@ def delete_patient(p_aadhar):
         app.logger.error(f"Error deleting patient: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/update_patient', methods=['POST'])
+def update_patient():
+    if request.method == 'POST':
+        try:
+            p_aadhar = request.form['p_aadhar']
+            p_name = request.form['p_name']
+            p_add = request.form['p_add']
+            p_age = request.form['p_age']
+            p_doc_aid = request.form['p_doc_aid']
+            
+            # The procedure expects name, address, age, aadhar, doctor's aadhar
+            result = execute_procedure('update_pat', [p_name, p_add, p_age, p_aadhar, p_doc_aid])
+            if result is not None:
+                flash('Patient updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating patient', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('patients'))
+
 # Prescription routes
 @app.route('/prescriptions')
 def prescriptions():
@@ -296,6 +413,33 @@ def delete_prescription(pr_id):
     except Exception as e:
         app.logger.error(f"Error deleting prescription: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/update_prescription', methods=['POST'])
+def update_prescription():
+    if request.method == 'POST':
+        try:
+            pr_id = request.form['pr_id']
+            pr_date = request.form['pr_date']
+            p_id = request.form['p_id']
+            d_id = request.form['d_id']
+            
+            result = execute_procedure('update_presc', [int(pr_id), pr_date, p_id, d_id])
+            if result is not None:
+                flash('Prescription updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating prescription', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('prescriptions'))
 
 # Report generation routes
 @app.route('/patient_report', methods=['GET', 'POST'])
@@ -448,6 +592,195 @@ def delete_prescription_drug(pc_name, trade_name, pr_no):
         return jsonify({'success': False}), 400
     except Exception as e:
         app.logger.error(f"Error deleting prescription drug: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/update_prescription_drug', methods=['POST'])
+def update_prescription_drug():
+    if request.method == 'POST':
+        try:
+            pc_name = request.form['pc_name']
+            trade_name = request.form['trade_name']
+            pr_no = request.form['pr_no']
+            quantity = request.form['quantity']
+            
+            result = execute_procedure('update_presc_drug', [pc_name, trade_name, int(pr_no), quantity])
+            if result is not None:
+                flash('Medication updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating medication', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('prescriptions'))
+
+# Contract routes
+@app.route('/contracts')
+def contracts():
+    if is_ajax():
+        try:
+            contracts_list = execute_procedure('get_contracts')
+            if contracts_list is None:
+                contracts_list = []
+            return jsonify(contracts_list)
+        except Exception as e:
+            app.logger.error(f"Error fetching contracts: {str(e)}")
+            return jsonify([]), 500
+    return render_template('contracts.html')
+
+@app.route('/add_contract', methods=['POST'])
+def add_contract():
+    if request.method == 'POST':
+        try:
+            pc_name = request.form['pc_name']
+            ph_name = request.form['ph_name']
+            supervisor = request.form['supervisor']
+            start_date = request.form['start_date']
+            end_date = request.form['end_date']
+            
+            result = execute_procedure('add_contract', [pc_name, ph_name, supervisor, start_date, end_date])
+            if result is not None:
+                flash('Contract added successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error adding contract', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('contracts'))
+
+@app.route('/update_contract', methods=['POST'])
+def update_contract():
+    if request.method == 'POST':
+        try:
+            pc_name = request.form['pc_name']
+            ph_name = request.form['ph_name']
+            supervisor = request.form['supervisor']
+            start_date = request.form['start_date']
+            end_date = request.form['end_date']
+            
+            # The procedure expects pc_name, start_date, end_date, content (empty), supervisor, ph_name
+            # From the SQL: update_contr(IN pc_nam VARCHAR(50), start_dat DATE, end_dat DATE, conten VARCHAR(500), superviso VARCHAR(50), ph_nam VARCHAR(50))
+            result = execute_procedure('update_contr', [pc_name, start_date, end_date, "", supervisor, ph_name])
+            if result is not None:
+                flash('Contract updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating contract', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('contracts'))
+
+@app.route('/delete_contract/<pc_name>/<ph_name>', methods=['DELETE'])
+def delete_contract(pc_name, ph_name):
+    try:
+        result = execute_procedure('del_contract', [pc_name, ph_name])
+        if result is not None:
+            return jsonify({'success': True})
+        return jsonify({'success': False}), 400
+    except Exception as e:
+        app.logger.error(f"Error deleting contract: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# Drug routes
+@app.route('/drugs')
+def drugs():
+    if is_ajax():
+        try:
+            drugs_list = execute_procedure('get_drugs')
+            if drugs_list is None:
+                drugs_list = []
+            return jsonify(drugs_list)
+        except Exception as e:
+            app.logger.error(f"Error fetching drugs: {str(e)}")
+            return jsonify([]), 500
+    return render_template('drugs.html')
+
+@app.route('/add_drug', methods=['POST'])
+def add_drug():
+    if request.method == 'POST':
+        try:
+            pc_name = request.form['pc_name']
+            trade_name = request.form['trade_name']
+            formula = request.form['formula']
+            
+            result = execute_procedure('add_drug', [pc_name, trade_name, formula])
+            if result is not None:
+                flash('Drug added successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error adding drug', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('drugs'))
+
+@app.route('/update_drug', methods=['POST'])
+def update_drug():
+    if request.method == 'POST':
+        try:
+            pc_name = request.form['pc_name']
+            trade_name = request.form['trade_name']
+            formula = request.form['formula']
+            
+            # The stored procedure expects company name, trade name, formula
+            # From SQL: update_drug(IN pc_nam VARCHAR(50), trade_nam VARCHAR(50), formul VARCHAR(50))
+            result = execute_procedure('update_drug', [pc_name, trade_name, formula])
+            if result is not None:
+                flash('Drug updated successfully!', 'success')
+                if is_ajax():
+                    return jsonify({'success': True})
+            else:
+                flash('Error updating drug', 'error')
+                if is_ajax():
+                    return jsonify({'success': False}), 400
+        except Exception as e:
+            flash(f'Error: {str(e)}', 'error')
+            if is_ajax():
+                return jsonify({'success': False, 'error': str(e)}), 400
+    
+    if is_ajax():
+        return jsonify({'success': False}), 400
+    return redirect(url_for('drugs'))
+
+@app.route('/delete_drug/<pc_name>/<trade_name>', methods=['DELETE'])
+def delete_drug(pc_name, trade_name):
+    try:
+        result = execute_procedure('del_drug', [pc_name, trade_name])
+        if result is not None:
+            return jsonify({'success': True})
+        return jsonify({'success': False}), 400
+    except Exception as e:
+        app.logger.error(f"Error deleting drug: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':

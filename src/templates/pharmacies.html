@@ -92,6 +92,40 @@
     </div>
 </div>
 
+<!-- Update Pharmacy Modal -->
+<div class="modal fade" id="updatePharmacyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit me-2"></i>Update Pharmacy
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updatePharmacyForm" action="{{ url_for('update_pharmacy') }}" method="POST">
+                    <input type="hidden" id="update_old_ph_name" name="old_ph_name">
+                    <div class="mb-3">
+                        <label for="update_ph_name" class="form-label">Pharmacy Name</label>
+                        <input type="text" class="form-control" id="update_ph_name" name="ph_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_ph_add" class="form-label">Address</label>
+                        <textarea class="form-control" id="update_ph_add" name="ph_add" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_ph_contact" class="form-label">Contact Number</label>
+                        <input type="tel" class="form-control" id="update_ph_contact" name="ph_contact" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Pharmacy
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Initialize DataTable with common config
 $(document).ready(function() {
@@ -107,10 +141,13 @@ $(document).ready(function() {
             { data: 'ph_contact' },
             {
                 data: 'ph_name',
-                render: function(data) {
+                render: function(data, type, row) {
                     return `
                         <button class="btn btn-sm btn-info btn-action" onclick="viewStock('${data}')">
                             <i class="fas fa-pills me-1"></i>View Stock
+                        </button>
+                        <button class="btn btn-sm btn-warning btn-action" onclick="showUpdateModal('${data}', '${row.ph_add}', '${row.ph_contact}')">
+                            <i class="fas fa-edit me-1"></i>Edit
                         </button>
                         <button class="btn btn-sm btn-danger btn-action" onclick="deletePharmacy('${data}')">
                             <i class="fas fa-trash me-1"></i>Delete
@@ -127,6 +164,39 @@ $(document).ready(function() {
         "{{ url_for('add_pharmacy') }}",
         table
     );
+    
+    // Initialize update form submission handler
+    handleFormSubmit(
+        document.getElementById('updatePharmacyForm'),
+        "{{ url_for('update_pharmacy') }}",
+        table
+    );
+    
+    // Additional handler for update form to ensure table refresh
+    $('#updatePharmacyForm').submit(function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch("{{ url_for('update_pharmacy') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Close the modal
+                bootstrap.Modal.getInstance(document.getElementById('updatePharmacyModal')).hide();
+                // Reload the table data
+                table.ajax.reload();
+                showAlert('Pharmacy updated successfully', 'success');
+            } else {
+                showAlert('Error updating pharmacy', 'danger');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            showAlert('Error updating pharmacy', 'danger');
+        });
+    });
 });
 
 function viewStock(pharmacyName) {
@@ -163,6 +233,15 @@ function deletePharmacy(pharmacyName) {
             })
             .catch(error => showAlert('Error deleting pharmacy', 'danger'));
     }
+}
+
+function showUpdateModal(ph_name, ph_add, ph_contact) {
+    document.getElementById('update_old_ph_name').value = ph_name;
+    document.getElementById('update_ph_name').value = ph_name;
+    document.getElementById('update_ph_add').value = ph_add;
+    document.getElementById('update_ph_contact').value = ph_contact;
+    
+    new bootstrap.Modal(document.getElementById('updatePharmacyModal')).show();
 }
 </script>
 {% endblock %}

@@ -89,13 +89,85 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Doctor</th>
-                                <th>Drugs</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Prescription Details Modal -->
+<div class="modal fade" id="prescriptionDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-prescription-bottle-alt me-2"></i>Prescription Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="prescription-date mb-3"></h6>
+                <h6 class="doctor-name mb-4"></h6>
+                <div class="table-responsive">
+                    <table class="table" id="medicationsTable">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Medicine</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Patient Modal -->
+<div class="modal fade" id="updatePatientModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit me-2"></i>Update Patient
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updatePatientForm" action="{{ url_for('update_patient') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="update_p_aadhar" class="form-label">Aadhar Number</label>
+                        <input type="text" class="form-control" id="update_p_aadhar" name="p_aadhar" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_p_name" class="form-label">Patient Name</label>
+                        <input type="text" class="form-control" id="update_p_name" name="p_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_p_add" class="form-label">Address</label>
+                        <textarea class="form-control" id="update_p_add" name="p_add" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_p_age" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="update_p_age" name="p_age" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="update_p_doc_aid" class="form-label">Doctor's Aadhar</label>
+                        <input type="text" class="form-control" id="update_p_doc_aid" name="p_doc_aid" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Patient
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -123,6 +195,9 @@ $(document).ready(function() {
                         <button class="btn btn-sm btn-info btn-action" onclick="viewPrescriptions('${data}', '${row.p_name}')">
                             <i class="fas fa-prescription me-1"></i>Prescriptions
                         </button>
+                        <button class="btn btn-sm btn-warning btn-action" onclick="showUpdateModal('${data}', '${row.p_name}', '${row.p_add.replace(/'/g, "\\'")}', ${row.p_age}, '${row.d_aadhar}')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
                         <button class="btn btn-sm btn-danger btn-action" onclick="deletePatient('${data}')">
                             <i class="fas fa-trash me-1"></i>Delete
                         </button>
@@ -138,6 +213,39 @@ $(document).ready(function() {
         "{{ url_for('add_patient') }}",
         table
     );
+    
+    // Initialize update form submission handler
+    handleFormSubmit(
+        document.getElementById('updatePatientForm'),
+        "{{ url_for('update_patient') }}",
+        table
+    );
+    
+    // Additional handler for update form to ensure table refresh
+    $('#updatePatientForm').submit(function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch("{{ url_for('update_patient') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Close the modal
+                bootstrap.Modal.getInstance(document.getElementById('updatePatientModal')).hide();
+                // Reload the table data
+                table.ajax.reload();
+                showAlert('Patient updated successfully', 'success');
+            } else {
+                showAlert('Error updating patient', 'danger');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            showAlert('Error updating patient', 'danger');
+        });
+    });
 });
 
 function viewPrescriptions(patientAadhar, patientName) {
@@ -193,9 +301,36 @@ function viewPrescriptionDetails(patientAadhar, prescriptionDate) {
         if (data.length === 0) {
             showAlert('No details found for this prescription', 'warning');
         } else {
-            // You could open another modal or display the details in some way
-            alert(`Prescription details: ${JSON.stringify(data)}`);
-            // In a real implementation, you'd format this nicely in a modal
+            // Format the date for display
+            const formattedDate = new Date(prescriptionDate).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Set the doctor name and prescription date in the modal
+            document.querySelector('#prescriptionDetailsModal .prescription-date').textContent = 
+                `Date: ${formattedDate}`;
+            document.querySelector('#prescriptionDetailsModal .doctor-name').textContent = 
+                `Doctor: ${data[0].d_name}`;
+            
+            // Clear and populate the medications table
+            const tbody = document.querySelector('#medicationsTable tbody');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.pc_name || '-'}</td>
+                        <td>${item.trade_name || '-'}</td>
+                        <td>${item.quantity || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            // Show the modal
+            new bootstrap.Modal(document.getElementById('prescriptionDetailsModal')).show();
         }
     })
     .catch(error => {
@@ -217,6 +352,16 @@ function deletePatient(patientAadhar) {
             })
             .catch(error => showAlert('Error deleting patient', 'danger'));
     }
+}
+
+function showUpdateModal(p_aadhar, p_name, p_add, p_age, p_doc_aid) {
+    document.getElementById('update_p_aadhar').value = p_aadhar;
+    document.getElementById('update_p_name').value = p_name;
+    document.getElementById('update_p_add').value = p_add;
+    document.getElementById('update_p_age').value = p_age;
+    document.getElementById('update_p_doc_aid').value = p_doc_aid;
+    
+    new bootstrap.Modal(document.getElementById('updatePatientModal')).show();
 }
 </script>
 {% endblock %}
