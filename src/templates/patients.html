@@ -43,6 +43,28 @@
                 </form>
             </div>
         </div>
+        
+        <!-- New Card for Prescription Search -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-search me-2"></i>Find Prescription
+                </h5>
+                <form id="findPrescriptionForm">
+                    <div class="mb-3">
+                        <label for="search_p_aadhar" class="form-label">Patient Aadhar</label>
+                        <input type="text" class="form-control" id="search_p_aadhar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="search_pr_date" class="form-label">Prescription Date</label>
+                        <input type="date" class="form-control" id="search_pr_date" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>View Details
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="col-md-8">
@@ -363,5 +385,67 @@ function showUpdateModal(p_aadhar, p_name, p_add, p_age, p_doc_aid) {
     
     new bootstrap.Modal(document.getElementById('updatePatientModal')).show();
 }
+
+// Add handler for the Find Prescription form
+$('#findPrescriptionForm').submit(function(e) {
+    e.preventDefault();
+    const patientAadhar = $('#search_p_aadhar').val();
+    const prescriptionDate = $('#search_pr_date').val();
+    
+    if (!patientAadhar || !prescriptionDate) {
+        showAlert('Please enter both Aadhar number and date', 'warning');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('p_aadhar', patientAadhar);
+    formData.append('pr_date', prescriptionDate);
+    
+    fetch('/prescription_details', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.length === 0) {
+            showAlert('No prescription found for this patient on the selected date', 'warning');
+        } else {
+            // Format the date for display
+            const formattedDate = new Date(prescriptionDate).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Set the doctor name and prescription date in the modal
+            document.querySelector('#prescriptionDetailsModal .prescription-date').textContent = 
+                `Date: ${formattedDate}`;
+            document.querySelector('#prescriptionDetailsModal .doctor-name').textContent = 
+                `Doctor: ${data[0].d_name}`;
+            
+            // Clear and populate the medications table
+            const tbody = document.querySelector('#medicationsTable tbody');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.pc_name || '-'}</td>
+                        <td>${item.trade_name || '-'}</td>
+                        <td>${item.quantity || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            // Show the modal
+            new bootstrap.Modal(document.getElementById('prescriptionDetailsModal')).show();
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        showAlert('Error loading prescription details', 'danger');
+    });
+});
 </script>
 {% endblock %}

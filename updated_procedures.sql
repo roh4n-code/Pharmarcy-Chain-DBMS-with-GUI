@@ -323,4 +323,18 @@ BEGIN
     WHERE pr.p_id = patient_id
     ORDER BY pr.pr_date DESC;
 END //
+
+DELIMITER //
+CREATE PROCEDURE get_contracts()
+BEGIN
+    SELECT 
+        c.pc_name, c.ph_name, c.supervisor, 
+        c.start_date, c.end_date, c.content,
+        pc.pc_contact as company_contact,
+        ph.ph_contact as pharmacy_contact
+    FROM Contract c
+    JOIN PharmaCompany pc ON c.pc_name = pc.pc_name
+    JOIN Pharmacy ph ON c.ph_name = ph.ph_name
+    ORDER BY c.pc_name, c.ph_name;
+END //
 DELIMITER ; 

@@ -92,13 +92,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
+                <h6 class="prescription-date mb-3"></h6>
+                <h6 class="doctor-name mb-4"></h6>
                 <div class="table-responsive">
                     <table class="table" id="detailsTable">
                         <thead>
                             <tr>
-                                <th>Doctor</th>
                                 <th>Company</th>
-                                <th>Drug</th>
+                                <th>Medicine</th>
                                 <th>Quantity</th>
                             </tr>
                         </thead>
@@ -156,14 +157,21 @@ function updateReportTable(data) {
     if (data.length === 0) {
         tbody.innerHTML = '<tr><td colspan="4" class="text-center">No prescriptions found for this patient</td></tr>';
     } else {
+        // Store the patient Aadhar for use with details
+        const patientAadhar = document.getElementById('p_aadhar').value;
+        
         data.forEach(item => {
+            // Format the date for display
+            const dateDisplay = new Date(item.pr_date).toLocaleDateString();
+            
             tbody.innerHTML += `
                 <tr>
                     <td>${item.pr_no || '-'}</td>
                     <td>${item.d_name || '-'}</td>
-                    <td>${item.pr_date || '-'}</td>
+                    <td>${dateDisplay}</td>
                     <td>
-                        <button class="btn btn-sm btn-info btn-action" onclick="viewDetails('${item.p_id}', '${item.pr_date}')">
+                        <button class="btn btn-sm btn-info btn-action" 
+                            onclick="viewDetails('${patientAadhar}', '${item.pr_date}')">
                             <i class="fas fa-eye me-1"></i>View Details
                         </button>
                     </td>
@@ -184,24 +192,46 @@ function updateReportTable(data) {
 function viewDetails(patientAadhar, prDate) {
     const formData = new FormData();
     formData.append('p_aadhar', patientAadhar);
-    formData.append('pr_date', prDate);
+    
+    // Format the date properly for MySQL (YYYY-MM-DD)
+    const date = new Date(prDate);
+    const formattedDate = date.toISOString().split('T')[0];
+    formData.append('pr_date', formattedDate);
     
     fetch('{{ url_for("prescription_details") }}', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         const tbody = document.querySelector('#detailsTable tbody');
         tbody.innerHTML = '';
         
         if (data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center">No details found for this prescription</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center">No details found for this prescription</td></tr>';
         } else {
+            // Format the date for display
+            const formattedDateDisplay = new Date(prDate).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Set the doctor name and prescription date in the modal
+            document.querySelector('#detailsModal .prescription-date').textContent = 
+                `Date: ${formattedDateDisplay}`;
+            document.querySelector('#detailsModal .doctor-name').textContent = 
+                `Doctor: ${data[0].d_name}`;
+            
             data.forEach(item => {
                 tbody.innerHTML += `
                     <tr>
-                        <td>${item.d_name || '-'}</td>
                         <td>${item.pc_name || '-'}</td>
                         <td>${item.trade_name || '-'}</td>
                         <td>${item.quantity || '-'}</td>
@@ -212,7 +242,10 @@ function viewDetails(patientAadhar, prDate) {
         
         new bootstrap.Modal(document.getElementById('detailsModal')).show();
     })
-    .catch(error => showAlert('Error loading prescription details', 'danger'));
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error loading prescription details: ' + error.message, 'danger');
+    });
 }
 </script>
 {% endblock %} 

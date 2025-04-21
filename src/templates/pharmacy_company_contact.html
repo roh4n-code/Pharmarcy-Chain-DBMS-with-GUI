@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}Pharmacy-Company Contact Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Pharmacy-Company Contact Details</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>Search Contact Details</h3>
+        </div>
+        <div class="card-body">
+            <form id="contactForm" class="row g-3">
+                <div class="col-md-5">
+                    <label for="pharmacy" class="form-label">Pharmacy</label>
+                    <select id="pharmacy" class="form-select" required>
+                        <option value="">Select Pharmacy</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="company" class="form-label">Pharmaceutical Company</label>
+                    <select id="company" class="form-select" required>
+                        <option value="">Select Company</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Get Details</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="contactDetails" class="card d-none">
+        <div class="card-header">
+            <h3>Contract Information</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="width: 200px;">Pharmacy</th>
+                            <td id="detailPharmacy"></td>
+                        </tr>
+                        <tr>
+                            <th>Company</th>
+                            <td id="detailCompany"></td>
+                        </tr>
+                        <tr>
+                            <th>Start Date</th>
+                            <td id="detailStartDate"></td>
+                        </tr>
+                        <tr>
+                            <th>End Date</th>
+                            <td id="detailEndDate"></td>
+                        </tr>
+                        <tr>
+                            <th>Supervisor</th>
+                            <td id="detailSupervisor"></td>
+                        </tr>
+                        <tr>
+                            <th>Content</th>
+                            <td id="detailContent"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="noContract" class="alert alert-info d-none">
+                No contract found between this pharmacy and company.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Load pharmacies and companies on page load
+        loadPharmacies();
+        loadCompanies();
+        
+        // Form submission
+        $('#contactForm').on('submit', function(e) {
+            e.preventDefault();
+            getContactDetails();
+        });
+    });
+    
+    function loadPharmacies() {
+        $.ajax({
+            url: '/pharmacies',
+            method: 'GET',
+            success: function(data) {
+                const pharmacySelect = $('#pharmacy');
+                pharmacySelect.find('option:not(:first)').remove();
+                
+                data.forEach(function(pharmacy) {
+                    pharmacySelect.append(
+                        $('<option></option>').val(pharmacy.ph_name).text(pharmacy.ph_name)
+                    );
+                });
+            },
+            error: function(err) {
+                console.error("Error loading pharmacies:", err);
+                showAlert('error', 'Failed to load pharmacies. Please try again.');
+            }
+        });
+    }
+    
+    function loadCompanies() {
+        $.ajax({
+            url: '/companies',
+            method: 'GET',
+            success: function(data) {
+                const companySelect = $('#company');
+                companySelect.find('option:not(:first)').remove();
+                
+                data.forEach(function(company) {
+                    companySelect.append(
+                        $('<option></option>').val(company.pc_name).text(company.pc_name)
+                    );
+                });
+            },
+            error: function(err) {
+                console.error("Error loading companies:", err);
+                showAlert('error', 'Failed to load companies. Please try again.');
+            }
+        });
+    }
+    
+    function getContactDetails() {
+        const phName = $('#pharmacy').val();
+        const pcName = $('#company').val();
+        
+        if (!phName || !pcName) {
+            showAlert('warning', 'Please select both a pharmacy and a company.');
+            return;
+        }
+        
+        $.ajax({
+            url: '/pharmacy_company_contact',
+            method: 'GET',
+            data: {
+                ph_name: phName,
+                pc_name: pcName
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(data) {
+                displayContactDetails(data, phName, pcName);
+            },
+            error: function(err) {
+                console.error("Error getting contact details:", err);
+                showAlert('error', 'Failed to retrieve contact details. Please try again.');
+            }
+        });
+    }
+    
+    function displayContactDetails(data, phName, pcName) {
+        const detailsCard = $('#contactDetails');
+        const noContract = $('#noContract');
+        
+        // Reset display
+        detailsCard.removeClass('d-none');
+        noContract.addClass('d-none');
+        
+        if (data && data.length > 0) {
+            const contractInfo = data[0];
+            
+            $('#detailPharmacy').text(contractInfo.ph_name || phName);
+            $('#detailCompany').text(contractInfo.pc_name || pcName);
+            $('#detailStartDate').text(formatDate(contractInfo.start_date));
+            $('#detailEndDate').text(formatDate(contractInfo.end_date));
+            $('#detailSupervisor').text(contractInfo.supervisor || 'N/A');
+            $('#detailContent').text(contractInfo.content || 'N/A');
+        } else {
+            // No contract found
+            noContract.removeClass('d-none');
+            
+            // Still show the pharmacy and company names
+            $('#detailPharmacy').text(phName);
+            $('#detailCompany').text(pcName);
+            $('#detailStartDate').text('N/A');
+            $('#detailEndDate').text('N/A');
+            $('#detailSupervisor').text('N/A');
+            $('#detailContent').text('N/A');
+        }
+    }
+    
+    function formatDate(dateStr) {
+        if (!dateStr) return 'N/A';
+        
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) return dateStr;
+        
+        return date.toLocaleDateString();
+    }
+    
+    function showAlert(type, message) {
+        const alertClass = type === 'error' ? 'danger' : type;
+        const alertHtml = `
+            <div class="alert alert-${alertClass} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        
+        // Insert alert before the form
+        $('#contactForm').before(alertHtml);
+        
+        // Auto dismiss after 5 seconds
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 5000);
+    }
+</script>
+{% endblock %} 

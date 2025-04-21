@@ -488,8 +488,24 @@ def patient_report():
             start_date = request.form['start_date']
             end_date = request.form['end_date']
             
+            # Log the parameters for debugging
+            app.logger.debug(f"Patient report request: p_aadhar={p_aadhar}, start_date={start_date}, end_date={end_date}")
+            
+            # Validate dates
+            if not start_date or not end_date:
+                if is_ajax():
+                    return jsonify({'success': False, 'error': 'Start date and end date are required'}), 400
+                flash('Start date and end date are required', 'error')
+                return render_template('patient_report.html')
+            
             # p_report needs exact parameters
             report = execute_procedure('p_report', [p_aadhar, start_date, end_date])
+            
+            # Add the patient aadhar to each result for later use in details view
+            if report:
+                for item in report:
+                    item['p_id'] = p_aadhar
+                    
             if is_ajax():
                 return jsonify(report if report else [])
             return render_template('patient_report.html', report=report)
@@ -500,24 +516,49 @@ def patient_report():
             flash(f'Error: {str(e)}', 'error')
     return render_template('patient_report.html')
 
-@app.route('/prescription_details', methods=['GET', 'POST'])
+@app.route('/prescription_details', methods=['POST'])
 def prescription_details():
-    if request.method == 'POST':
+    try:
+        p_aadhar = request.form['p_aadhar']
+        pr_date = request.form['pr_date']
+        
+        # Debug log for troubleshooting
+        app.logger.debug(f"Prescription details request: p_aadhar={p_aadhar}, pr_date={pr_date}")
+        
+        # Ensure date is in correct format for MySQL (YYYY-MM-DD)
         try:
-            p_aadhar = request.form['p_aadhar']
-            pr_date = request.form['pr_date']
+            # Attempt to parse the date and reformat it
+            if 'GMT' in pr_date:
+                # Handle JavaScript date string format
+                parsed_date = datetime.strptime(pr_date, '%a, %d %b %Y %H:%M:%S GMT')
+            else:
+                # Try to parse the date in various formats
+                for fmt in ['%Y-%m-%d', '%d-%m-%Y', '%m/%d/%Y', '%d/%m/%Y', '%Y/%m/%d']:
+                    try:
+                        parsed_date = datetime.strptime(pr_date, fmt)
+                        break
+                    except ValueError:
+                        continue
+                else:
+                    raise ValueError(f"Unable to parse date: {pr_date}")
+                    
+            # Format date as YYYY-MM-DD for MySQL
+            formatted_date = parsed_date.strftime('%Y-%m-%d')
+            
+            # Debug log formatted date
+            app.logger.debug(f"Formatted date for database: {formatted_date}")
             
             # pr_details needs exact parameters
-            details = execute_procedure('pr_details', [p_aadhar, pr_date])
-            if is_ajax():
-                return jsonify(details if details else [])
-            return render_template('prescription_details.html', details=details)
-        except Exception as e:
-            app.logger.error(f"Error fetching prescription details: {str(e)}")
-            if is_ajax():
-                return jsonify({'success': False, 'error': str(e)}), 500
-            flash(f'Error: {str(e)}', 'error')
-    return render_template('prescription_details.html')
+            details = execute_procedure('pr_details', [p_aadhar, formatted_date])
+            
+            return jsonify(details if details else [])
+        except ValueError as e:
+            app.logger.error(f"Date parsing error: {str(e)}")
+            return jsonify({'success': False, 'error': f"Invalid date format: {str(e)}"}), 400
+            
+    except Exception as e:
+        app.logger.error(f"Error fetching prescription details: {str(e)}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/company_drugs/<pc_name>')
 def company_drugs(pc_name):
@@ -940,6 +981,24 @@ def logs_dashboard():
     </html>
     """
     return logs_html
+
+@app.route('/pharmacy_company_contact', methods=['GET'])
+def pharmacy_company_contact():
+    if request.method == 'GET':
+        if is_ajax():
+            try:
+                ph_name = request.args.get('ph_name')
+                pc_name = request.args.get('pc_name')
+                
+                if not ph_name or not pc_name:
+                    return jsonify({'success': False, 'error': 'Both pharmacy name and company name are required'}), 400
+                
+                contact_details = execute_procedure('pch_con', [pc_name, ph_name])
+                return jsonify(contact_details if contact_details else [])
+            except Exception as e:
+                app.logger.error(f"Error fetching pharmacy-company contact details: {str(e)}")
+                return jsonify({'success': False, 'error': str(e)}), 500
+        return render_template('pharmacy_company_contact.html')
 
 if __name__ == '__main__':
     # Print some debug information
