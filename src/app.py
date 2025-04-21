@@ -3,6 +3,7 @@ from database import execute_procedure, get_db_connection
 from datetime import datetime
 import os
 import json
+from logger import app_logger, log_request, log_response
 
 # Get the absolute path of the current directory
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -13,6 +14,43 @@ app = Flask(__name__,
            static_folder=os.path.join(basedir, 'static'))
 
 app.secret_key = 'your_secret_key_here'  # Change this to a secure secret key
+
+# Configure Flask's built-in logger to use our app_logger
+app.logger = app_logger
+
+# Request logging middleware
+@app.before_request
+def log_request_info():
+    # Skip logging for static files
+    if request.path.startswith('/static'):
+        return
+    
+    # Log the request
+    params = {}
+    if request.method == 'GET':
+        params = dict(request.args)
+    elif request.method == 'POST':
+        params = dict(request.form)
+    
+    log_request(request.path, request.method, params)
+
+# Response logging middleware
+@app.after_request
+def log_response_info(response):
+    # Skip logging for static files
+    if request.path.startswith('/static'):
+        return response
+    
+    # Don't try to decode JSON for non-JSON responses
+    response_data = None
+    if response.content_type and 'application/json' in response.content_type:
+        try:
+            response_data = json.loads(response.get_data(as_text=True))
+        except:
+            response_data = "[Could not parse JSON response]"
+    
+    log_response(request.path, response.status_code, response_data)
+    return response
 
 # Helper function to determine if the request is AJAX
 def is_ajax():
@@ -782,6 +820,126 @@ def delete_drug(pc_name, trade_name):
     except Exception as e:
         app.logger.error(f"Error deleting drug: {str(e)}")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+# Logging routes
+@app.route('/logs/database')
+def view_db_logs():
+    try:
+        log_file = os.path.join(basedir, 'logs', 'database.log')
+        if not os.path.exists(log_file):
+            return "No database logs found", 404
+        
+        # Read the last 1000 lines of the log file
+        with open(log_file, 'r') as f:
+            lines = f.readlines()
+            
+        # Format logs as HTML
+        logs_html = "<h1>Database Logs</h1>"
+        logs_html += f"<p><a href='/logs/download/database' style='display: inline-block; background-color: #2196F3; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px;'>Download Full Log</a></p>"
+        logs_html += "<pre style='background-color: #f5f5f5; padding: 15px; overflow: auto; max-height: 80vh;'>"
+        for line in lines[-1000:]:
+            # Highlight errors in red
+            if "ERROR" in line:
+                logs_html += f"<span style='color: red;'>{line}</span>"
+            else:
+                logs_html += line
+        logs_html += "</pre>"
+        
+        return logs_html
+    except Exception as e:
+        return f"Error reading log file: {str(e)}", 500
+
+@app.route('/logs/app')
+def view_app_logs():
+    try:
+        log_file = os.path.join(basedir, 'logs', 'app.log')
+        if not os.path.exists(log_file):
+            return "No application logs found", 404
+        
+        # Read the last 1000 lines of the log file
+        with open(log_file, 'r') as f:
+            lines = f.readlines()
+            
+        # Format logs as HTML
+        logs_html = "<h1>Application Logs</h1>"
+        logs_html += f"<p><a href='/logs/download/app' style='display: inline-block; background-color: #2196F3; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px;'>Download Full Log</a></p>"
+        logs_html += "<pre style='background-color: #f5f5f5; padding: 15px; overflow: auto; max-height: 80vh;'>"
+        for line in lines[-1000:]:
+            # Highlight errors in red
+            if "ERROR" in line:
+                logs_html += f"<span style='color: red;'>{line}</span>"
+            else:
+                logs_html += line
+        logs_html += "</pre>"
+        
+        return logs_html
+    except Exception as e:
+        return f"Error reading log file: {str(e)}", 500
+
+@app.route('/logs/download/<log_type>')
+def download_logs(log_type):
+    try:
+        if log_type == 'database':
+            log_file = os.path.join(basedir, 'logs', 'database.log')
+            filename = 'database.log'
+        elif log_type == 'app':
+            log_file = os.path.join(basedir, 'logs', 'app.log')
+            filename = 'app.log'
+        else:
+            return "Invalid log type", 400
+            
+        if not os.path.exists(log_file):
+            return f"No {log_type} logs found", 404
+            
+        # Add timestamp to filename to make it unique
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        download_name = f"{log_type}_log_{timestamp}.log"
+        
+        return send_from_directory(
+            os.path.join(basedir, 'logs'),
+            filename,
+            as_attachment=True,
+            download_name=download_name
+        )
+    except Exception as e:
+        return f"Error downloading log file: {str(e)}", 500
+
+@app.route('/logs')
+def logs_dashboard():
+    logs_html = """
+    <html>
+    <head>
+        <title>Pharma DB Logs</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+            .container { max-width: 800px; margin: 0 auto; }
+            h1 { color: #333; }
+            .card { border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+            .card h2 { margin-top: 0; }
+            .button { display: inline-block; background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; }
+            .button:hover { background-color: #45a049; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Pharma DB Logs Dashboard</h1>
+            
+            <div class="card">
+                <h2>Database Logs</h2>
+                <p>View all database operation logs including SQL queries, parameters, and results.</p>
+                <a href="/logs/database" class="button">View Database Logs</a>
+            </div>
+            
+            <div class="card">
+                <h2>Application Logs</h2>
+                <p>View all application logs including API requests and responses.</p>
+                <a href="/logs/app" class="button">View Application Logs</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    return logs_html
 
 if __name__ == '__main__':
     # Print some debug information
