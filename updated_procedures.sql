@@ -258,7 +258,7 @@ END //
 DELIMITER //
 CREATE PROCEDURE d_view()
 BEGIN
-    SELECT d_name, d_aadhar, spec
+    SELECT d_name, d_aadhar, years_of_exp, spec
     FROM Doctor;
 END //
 
@@ -298,7 +298,7 @@ DELIMITER //
 CREATE PROCEDURE get_prescriptions()
 BEGIN
     SELECT pr.pr_no, pr.pr_date, p.p_name, d.d_name,
-           p.p_aadhar AS p_id, d.d_aadhar AS d_id
+        p.p_aadhar AS p_id, d.d_aadhar AS d_id
     FROM Prescription pr
     JOIN Patient p ON pr.p_id = p.p_aadhar
     JOIN Doctor d ON pr.d_id = d.d_aadhar
@@ -337,10 +337,10 @@ BEGIN
     JOIN Pharmacy ph ON c.ph_name = ph.ph_name
     ORDER BY c.pc_name, c.ph_name;
 END //
-DELIMITER 
 
-    CREATE PROCEDURE get_drugs()
+DELIMITER // 
+CREATE PROCEDURE get_drugs()
     BEGIN
         SELECT *
-        FROM Drugs d
+        FROM Drugs;
     END //

@@ -98,7 +98,7 @@ CREATE TABLE Prescription_Drugs(
     quantity INT NOT NULL,
     
     PRIMARY KEY(pc_name,trade_name,pr_no),    
-    FOREIGN KEY(pc_name) references PharmaCompany(pc_name),
+    FOREIGN KEY(pc_name) references Drugs(pc_name),
     FOREIGN KEY(pr_no) references Prescription(pr_no),
     FOREIGN KEY(trade_name) references Drugs(trade_name)
 );
