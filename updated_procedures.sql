@@ -337,4 +337,10 @@ BEGIN
     JOIN Pharmacy ph ON c.ph_name = ph.ph_name
     ORDER BY c.pc_name, c.ph_name;
 END //
-DELIMITER ; 
+DELIMITER 
+
+    CREATE PROCEDURE get_drugs()
+    BEGIN
+        SELECT *
+        FROM Drugs d
+    END //

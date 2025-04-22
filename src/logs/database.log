@@ -874,3 +874,485 @@ mysql.connector.errors.ProgrammingError: 1305 (42000): PROCEDURE pharmadb.get_dr
 [2025-04-22 01:09:44,303] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0022s
 [2025-04-22 01:09:44,304] INFO in logger: DB CALL: get_companies
 [2025-04-22 01:09:44,304] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0019s
+[2025-04-22 01:11:02,270] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 01:11:02,273] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 01:11:02,274] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0038s
+[2025-04-22 01:11:03,089] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 01:11:03,091] INFO in logger: DB CALL: get_companies
+[2025-04-22 01:11:03,091] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0012s
+[2025-04-22 01:11:05,760] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 01:11:05,768] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca']
+[2025-04-22 01:11:05,768] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca'], RESULT: Success - 2 records returned in 0.0078s
+[2025-04-22 01:11:14,509] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 01:11:14,510] INFO in logger: DB CALL: d_view
+[2025-04-22 01:11:14,510] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0016s
+[2025-04-22 01:11:17,351] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 01:11:17,355] INFO in logger: DB CALL: d_patient, PARAMS: ['901234567890']
+[2025-04-22 01:11:17,355] INFO in logger: DB CALL: d_patient, PARAMS: ['901234567890'], RESULT: Success - 2 records returned in 0.0038s
+[2025-04-22 11:59:21,824] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 11:59:47,289] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 11:59:47,292] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 11:59:47,292] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0027s
+[2025-04-22 11:59:57,582] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 11:59:57,583] INFO in logger: DB CALL: d_view
+[2025-04-22 11:59:57,584] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0017s
+[2025-04-22 12:00:03,173] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:03,174] INFO in logger: DB CALL: d_view
+[2025-04-22 12:00:03,174] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 12:00:15,476] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:15,478] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:00:15,478] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0014s
+[2025-04-22 12:00:26,409] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:26,410] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:26,413] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:00:26,414] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0038s
+[2025-04-22 12:00:26,414] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:00:26,415] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0055s
+[2025-04-22 12:00:29,085] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:29,088] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 12:00:29,088] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0029s
+[2025-04-22 12:00:32,649] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:32,650] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:00:32,650] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0010s
+[2025-04-22 12:00:51,219] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:53,625] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:53,635] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:00:53,636] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0097s
+[2025-04-22 12:00:59,085] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:59,086] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:00:59,087] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0011s
+[2025-04-22 12:00:59,767] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:00:59,768] INFO in logger: DB CALL: d_view
+[2025-04-22 12:00:59,769] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0012s
+[2025-04-22 12:01:00,483] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:01:00,485] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:01:00,485] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0019s
+[2025-04-22 12:01:01,034] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:01:01,035] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 12:01:01,036] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0015s
+[2025-04-22 12:01:01,870] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:01:01,871] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:01:01,873] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:01:01,873] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:01:01,873] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0025s
+[2025-04-22 12:01:01,873] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0027s
+[2025-04-22 12:01:03,426] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:01:03,426] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:01:03,428] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:01:03,428] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:01:03,428] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0017s
+[2025-04-22 12:01:03,428] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0019s
+[2025-04-22 12:01:48,591] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:01:48,592] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:01:48,594] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0030s
+[2025-04-22 12:01:49,980] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:02:05,257] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:02:05,258] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:02:05,259] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0015s
+[2025-04-22 12:02:34,277] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:02:34,280] INFO in logger: DB CALL: pc_production, PARAMS: ['Merck']
+[2025-04-22 12:02:34,281] INFO in logger: DB CALL: pc_production, PARAMS: ['Merck'], RESULT: Success - 2 records returned in 0.0031s
+[2025-04-22 12:02:36,611] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:02:36,614] INFO in logger: DB CALL: pc_production, PARAMS: ['Merck']
+[2025-04-22 12:02:36,615] INFO in logger: DB CALL: pc_production, PARAMS: ['Merck'], RESULT: Success - 2 records returned in 0.0035s
+[2025-04-22 12:02:44,570] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:02:44,572] INFO in logger: DB CALL: d_view
+[2025-04-22 12:02:44,572] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0014s
+[2025-04-22 12:03:21,206] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:03:21,211] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:03:21,212] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0034s
+[2025-04-22 12:03:23,905] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:03:23,906] INFO in logger: DB CALL: d_view
+[2025-04-22 12:03:23,907] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0015s
+[2025-04-22 12:03:29,163] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:03:29,164] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:03:29,164] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0017s
+[2025-04-22 12:03:50,242] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:03:50,244] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 12:03:50,245] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0021s
+[2025-04-22 12:04:02,447] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:02,450] INFO in logger: DB CALL: get_prescription_drugs, PARAMS: [4]
+[2025-04-22 12:04:02,450] INFO in logger: DB CALL: get_prescription_drugs, PARAMS: [4], RESULT: Success - 2 records returned in 0.0028s
+[2025-04-22 12:04:17,129] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:17,131] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:04:17,132] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0025s
+[2025-04-22 12:04:19,633] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:19,636] INFO in logger: DB CALL: get_patient_prescriptions, PARAMS: ['112233445566']
+[2025-04-22 12:04:19,637] INFO in logger: DB CALL: get_patient_prescriptions, PARAMS: ['112233445566'], RESULT: Success - 1 records returned in 0.0039s
+[2025-04-22 12:04:21,604] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:21,608] INFO in logger: DB CALL: pr_details, PARAMS: ['112233445566', '2024-02-03']
+[2025-04-22 12:04:21,609] INFO in logger: DB CALL: pr_details, PARAMS: ['112233445566', '2024-02-03'], RESULT: Success - 1 records returned in 0.0045s
+[2025-04-22 12:04:27,962] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:27,963] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:27,964] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:04:27,964] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:04:27,964] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0015s
+[2025-04-22 12:04:27,964] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0017s
+[2025-04-22 12:04:33,163] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:33,164] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:04:33,164] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0012s
+[2025-04-22 12:04:53,372] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:53,373] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:04:53,374] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0013s
+[2025-04-22 12:04:54,331] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:54,332] INFO in logger: DB CALL: d_view
+[2025-04-22 12:04:54,332] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0014s
+[2025-04-22 12:04:55,475] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:04:55,476] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:04:55,476] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0014s
+[2025-04-22 12:05:03,314] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:05:03,319] INFO in logger: DB CALL: ph_stock, PARAMS: ['Apollo Pharmacy']
+[2025-04-22 12:05:03,319] INFO in logger: DB CALL: ph_stock, PARAMS: ['Apollo Pharmacy'], RESULT: Success - 2 records returned in 0.0048s
+[2025-04-22 12:05:11,236] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:05:11,239] INFO in logger: DB CALL: ph_stock, PARAMS: ['Care Pharmacy']
+[2025-04-22 12:05:11,240] INFO in logger: DB CALL: ph_stock, PARAMS: ['Care Pharmacy'], RESULT: Success - 2 records returned in 0.0037s
+[2025-04-22 12:18:52,950] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:00,903] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:00,904] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:19:00,905] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0012s
+[2025-04-22 12:19:15,675] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:15,676] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:19:15,678] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0023s
+[2025-04-22 12:19:16,698] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:16,699] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:19:16,699] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0014s
+[2025-04-22 12:19:20,675] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:20,676] INFO in logger: DB CALL: d_view
+[2025-04-22 12:19:20,677] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0018s
+[2025-04-22 12:19:27,707] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:27,708] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:19:27,709] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0016s
+[2025-04-22 12:19:33,714] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:33,716] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:19:33,717] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0027s
+[2025-04-22 12:19:34,992] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:34,997] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca']
+[2025-04-22 12:19:34,998] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca'], RESULT: Success - 2 records returned in 0.0050s
+[2025-04-22 12:19:38,525] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:38,530] INFO in logger: DB CALL: pc_production, PARAMS: ['Bayer']
+[2025-04-22 12:19:38,531] INFO in logger: DB CALL: pc_production, PARAMS: ['Bayer'], RESULT: Success - 2 records returned in 0.0049s
+[2025-04-22 12:19:40,945] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:40,946] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 12:19:40,947] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0016s
+[2025-04-22 12:19:43,203] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:43,205] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:19:43,205] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0016s
+[2025-04-22 12:19:44,444] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:44,450] INFO in logger: DB CALL: ph_stock, PARAMS: ['Apollo Pharmacy']
+[2025-04-22 12:19:44,450] INFO in logger: DB CALL: ph_stock, PARAMS: ['Apollo Pharmacy'], RESULT: Success - 2 records returned in 0.0055s
+[2025-04-22 12:19:47,349] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:47,353] INFO in logger: DB CALL: ph_stock, PARAMS: ['Care Pharmacy']
+[2025-04-22 12:19:47,353] INFO in logger: DB CALL: ph_stock, PARAMS: ['Care Pharmacy'], RESULT: Success - 2 records returned in 0.0035s
+[2025-04-22 12:19:50,416] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:50,420] INFO in logger: DB CALL: ph_stock, PARAMS: ['City Drugs']
+[2025-04-22 12:19:50,421] INFO in logger: DB CALL: ph_stock, PARAMS: ['City Drugs'], RESULT: Success - 3 records returned in 0.0045s
+[2025-04-22 12:19:53,632] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:53,641] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 12:19:53,641] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0092s
+[2025-04-22 12:19:57,458] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:57,458] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:19:57,460] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:19:57,460] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:19:57,460] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0016s
+[2025-04-22 12:19:57,460] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0017s
+[2025-04-22 12:20:06,287] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:06,288] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:20:06,289] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0018s
+[2025-04-22 12:20:24,616] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:24,619] INFO in logger: DB CALL: p_report, PARAMS: ['444555666777', '2023-10-12', '2025-04-22']
+[2025-04-22 12:20:24,620] INFO in logger: DB CALL: p_report, PARAMS: ['444555666777', '2023-10-12', '2025-04-22'], RESULT: Success - 2 records returned in 0.0035s
+[2025-04-22 12:20:26,947] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:26,951] INFO in logger: DB CALL: pr_details, PARAMS: ['444555666777', '2024-01-12']
+[2025-04-22 12:20:26,952] INFO in logger: DB CALL: pr_details, PARAMS: ['444555666777', '2024-01-12'], RESULT: Success - 2 records returned in 0.0044s
+[2025-04-22 12:20:36,149] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:36,151] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 12:20:36,152] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0023s
+[2025-04-22 12:20:36,950] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:36,953] INFO in logger: DB CALL: get_prescription_drugs, PARAMS: [4]
+[2025-04-22 12:20:36,953] INFO in logger: DB CALL: get_prescription_drugs, PARAMS: [4], RESULT: Success - 2 records returned in 0.0030s
+[2025-04-22 12:20:41,675] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:41,678] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:20:41,679] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0025s
+[2025-04-22 12:20:43,601] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:43,602] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:20:43,602] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0009s
+[2025-04-22 12:20:44,250] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:44,252] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:20:44,252] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0015s
+[2025-04-22 12:20:45,115] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:45,116] INFO in logger: DB CALL: d_view
+[2025-04-22 12:20:45,116] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0012s
+[2025-04-22 12:20:49,719] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:49,722] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:20:49,722] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0026s
+[2025-04-22 12:20:57,571] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:57,573] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:20:57,573] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 12:20:58,859] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:20:58,863] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:20:58,864] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0028s
+[2025-04-22 12:21:00,386] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:00,387] INFO in logger: DB CALL: d_view
+[2025-04-22 12:21:00,387] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 12:21:00,891] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:00,893] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:21:00,894] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0025s
+[2025-04-22 12:21:01,404] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:01,407] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 12:21:01,408] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0030s
+[2025-04-22 12:21:01,999] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:02,000] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:02,002] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:21:02,003] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0030s
+[2025-04-22 12:21:02,004] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:21:02,005] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0051s
+[2025-04-22 12:21:04,730] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:04,732] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:21:04,732] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0015s
+[2025-04-22 12:21:52,613] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:52,614] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:21:52,615] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0014s
+[2025-04-22 12:21:56,030] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:21:56,031] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:21:56,032] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 12:22:14,812] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:14,814] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 12:22:14,815] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0025s
+[2025-04-22 12:22:22,410] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:22,411] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:22:22,411] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0013s
+[2025-04-22 12:22:23,707] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:23,710] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca']
+[2025-04-22 12:22:23,711] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca'], RESULT: Success - 2 records returned in 0.0034s
+[2025-04-22 12:22:27,050] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:27,052] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:22:27,052] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0012s
+[2025-04-22 12:22:27,998] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:28,006] INFO in logger: DB CALL: ph_stock, PARAMS: ['Apollo Pharmacy']
+[2025-04-22 12:22:28,008] INFO in logger: DB CALL: ph_stock, PARAMS: ['Apollo Pharmacy'], RESULT: Success - 2 records returned in 0.0094s
+[2025-04-22 12:22:30,497] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:30,497] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:30,498] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:22:30,499] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:22:30,499] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0018s
+[2025-04-22 12:22:30,499] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0018s
+[2025-04-22 12:22:34,967] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:34,972] INFO in logger: DB CALL: pch_con, PARAMS: ['GlaxoSmithKline', 'Apollo Pharmacy']
+[2025-04-22 12:22:34,972] INFO in logger: DB CALL: pch_con, PARAMS: ['GlaxoSmithKline', 'Apollo Pharmacy'], RESULT: Success - 0 records returned in 0.0050s
+[2025-04-22 12:22:37,089] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:37,092] INFO in logger: DB CALL: pch_con, PARAMS: ["Hemnath's Pharmacy", 'Apollo Pharmacy']
+[2025-04-22 12:22:37,093] INFO in logger: DB CALL: pch_con, PARAMS: ["Hemnath's Pharmacy", 'Apollo Pharmacy'], RESULT: Success - 0 records returned in 0.0038s
+[2025-04-22 12:22:38,517] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:38,520] INFO in logger: DB CALL: pch_con, PARAMS: ['Johnson & Johnson', 'Apollo Pharmacy']
+[2025-04-22 12:22:38,520] INFO in logger: DB CALL: pch_con, PARAMS: ['Johnson & Johnson', 'Apollo Pharmacy'], RESULT: Success - 0 records returned in 0.0029s
+[2025-04-22 12:22:40,588] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:40,591] INFO in logger: DB CALL: pch_con, PARAMS: ['Bayer', 'Apollo Pharmacy']
+[2025-04-22 12:22:40,591] INFO in logger: DB CALL: pch_con, PARAMS: ['Bayer', 'Apollo Pharmacy'], RESULT: Success - 0 records returned in 0.0032s
+[2025-04-22 12:22:42,055] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:42,058] INFO in logger: DB CALL: pch_con, PARAMS: ['AstraZeneca', 'Apollo Pharmacy']
+[2025-04-22 12:22:42,058] INFO in logger: DB CALL: pch_con, PARAMS: ['AstraZeneca', 'Apollo Pharmacy'], RESULT: Success - 0 records returned in 0.0022s
+[2025-04-22 12:22:45,783] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:45,786] INFO in logger: DB CALL: pch_con, PARAMS: ['Novartis', 'Apollo Pharmacy']
+[2025-04-22 12:22:45,787] INFO in logger: DB CALL: pch_con, PARAMS: ['Novartis', 'Apollo Pharmacy'], RESULT: Success - 1 records returned in 0.0033s
+[2025-04-22 12:22:54,550] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:54,551] INFO in logger: DB CALL: d_view
+[2025-04-22 12:22:54,551] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0014s
+[2025-04-22 12:22:55,495] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:22:55,501] INFO in logger: DB CALL: d_patient, PARAMS: ['901234567890']
+[2025-04-22 12:22:55,501] INFO in logger: DB CALL: d_patient, PARAMS: ['901234567890'], RESULT: Success - 2 records returned in 0.0060s
+[2025-04-22 12:23:04,533] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:23:04,534] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:23:04,534] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 12:34:21,132] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:34:28,009] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:34:28,010] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:34:28,010] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0015s
+[2025-04-22 12:34:29,636] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:34:29,636] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:34:29,637] INFO in logger: DB CALL: get_companies
+[2025-04-22 12:34:29,637] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 12:34:29,637] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0010s
+[2025-04-22 12:34:29,637] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 12:34:47,560] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:34:47,564] INFO in logger: DB CALL: pch_con, PARAMS: ['Sun Pharma', 'Quick Meds']
+[2025-04-22 12:34:47,564] INFO in logger: DB CALL: pch_con, PARAMS: ['Sun Pharma', 'Quick Meds'], RESULT: Success - 0 records returned in 0.0035s
+[2025-04-22 12:34:51,164] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:34:51,175] INFO in logger: DB CALL: pch_con, PARAMS: ['Sanofi', 'Quick Meds']
+[2025-04-22 12:34:51,175] INFO in logger: DB CALL: pch_con, PARAMS: ['Sanofi', 'Quick Meds'], RESULT: Success - 1 records returned in 0.0106s
+[2025-04-22 12:35:05,958] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:35:05,961] INFO in logger: DB CALL: pch_con, PARAMS: ['Merck', 'Quick Meds']
+[2025-04-22 12:35:05,962] INFO in logger: DB CALL: pch_con, PARAMS: ['Merck', 'Quick Meds'], RESULT: Success - 0 records returned in 0.0035s
+[2025-04-22 12:35:10,540] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 12:35:10,544] INFO in logger: DB CALL: pch_con, PARAMS: ['GlaxoSmithKline', 'Quick Meds']
+[2025-04-22 12:35:10,544] INFO in logger: DB CALL: pch_con, PARAMS: ['GlaxoSmithKline', 'Quick Meds'], RESULT: Success - 0 records returned in 0.0037s
+[2025-04-22 17:43:29,264] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:43:31,591] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:43:31,593] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 17:43:31,594] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0022s
+[2025-04-22 17:43:39,360] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:43:39,362] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:43:39,374] ERROR in logger: DB CALL: update_pat, PARAMS: ['Charles Taylo', '808 Eleventh St, Austin, TX', '39', '112233445566', 'undefined'], ERROR: Error executing procedure update_pat: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`pharmadb`.`patient`, CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`p_doc_aid`) REFERENCES `doctor` (`d_aadhar`))
+Traceback (most recent call last):
+  File "/Users/rohanreddy/Documents/GitHub/DBMS_LAB_PROJECT/src/database.py", line 33, in execute_procedure
+    cursor.callproc(proc_name, params)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/cursor.py", line 826, in callproc
+    for result in self._connection.cmd_query_iter(call):
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 894, in cmd_query_iter
+    yield self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 620, in _handle_result
+    raise get_exception(packet)
+mysql.connector.errors.IntegrityError: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`pharmadb`.`patient`, CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`p_doc_aid`) REFERENCES `doctor` (`d_aadhar`))
+
+[2025-04-22 17:43:39,377] ERROR in logger: DB CALL: update_pat, PARAMS: ['Charles Taylo', '808 Eleventh St, Austin, TX', '39', '112233445566', 'undefined'], ERROR: Error executing procedure update_pat: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`pharmadb`.`patient`, CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`p_doc_aid`) REFERENCES `doctor` (`d_aadhar`))
+Traceback (most recent call last):
+  File "/Users/rohanreddy/Documents/GitHub/DBMS_LAB_PROJECT/src/database.py", line 33, in execute_procedure
+    cursor.callproc(proc_name, params)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/cursor.py", line 826, in callproc
+    for result in self._connection.cmd_query_iter(call):
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 894, in cmd_query_iter
+    yield self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 620, in _handle_result
+    raise get_exception(packet)
+mysql.connector.errors.IntegrityError: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`pharmadb`.`patient`, CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`p_doc_aid`) REFERENCES `doctor` (`d_aadhar`))
+
+[2025-04-22 17:43:39,390] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:43:39,392] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 17:43:39,392] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0014s
+[2025-04-22 17:43:39,392] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:43:39,393] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 17:43:39,394] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0016s
+[2025-04-22 17:43:54,119] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:43:54,121] INFO in logger: DB CALL: d_view
+[2025-04-22 17:43:54,121] INFO in logger: DB CALL: d_view, RESULT: Success - 10 records returned in 0.0016s
+[2025-04-22 17:44:01,852] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:01,854] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 17:44:01,855] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0027s
+[2025-04-22 17:44:08,813] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:08,816] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 17:44:08,816] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0024s
+[2025-04-22 17:44:12,825] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:12,827] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 17:44:12,827] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0023s
+[2025-04-22 17:44:13,986] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:13,986] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:13,987] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 17:44:13,987] INFO in logger: DB CALL: get_companies
+[2025-04-22 17:44:13,987] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0018s
+[2025-04-22 17:44:13,988] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0015s
+[2025-04-22 17:44:47,920] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:47,920] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:47,921] INFO in logger: DB CALL: get_companies
+[2025-04-22 17:44:47,921] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 17:44:47,922] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0013s
+[2025-04-22 17:44:47,922] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 17:44:49,309] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:44:49,311] ERROR in logger: DB CALL: get_drugs, ERROR: Error executing procedure get_drugs: 1305 (42000): PROCEDURE pharmadb.get_drugs does not exist
+Traceback (most recent call last):
+  File "/Users/rohanreddy/Documents/GitHub/DBMS_LAB_PROJECT/src/database.py", line 36, in execute_procedure
+    cursor.callproc(proc_name)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/cursor.py", line 826, in callproc
+    for result in self._connection.cmd_query_iter(call):
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 894, in cmd_query_iter
+    yield self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 620, in _handle_result
+    raise get_exception(packet)
+mysql.connector.errors.ProgrammingError: 1305 (42000): PROCEDURE pharmadb.get_drugs does not exist
+
+[2025-04-22 17:46:28,883] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:46:28,884] INFO in logger: DB CALL: get_companies
+[2025-04-22 17:46:28,884] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0013s
+[2025-04-22 17:46:38,242] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:46:38,247] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca']
+[2025-04-22 17:46:38,248] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca'], RESULT: Success - 2 records returned in 0.0061s
+[2025-04-22 17:47:04,463] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:47:04,468] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca']
+[2025-04-22 17:47:04,469] INFO in logger: DB CALL: pc_production, PARAMS: ['AstraZeneca'], RESULT: Success - 2 records returned in 0.0053s
+[2025-04-22 17:53:00,815] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:00,817] INFO in logger: DB CALL: get_companies
+[2025-04-22 17:53:00,817] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0014s
+[2025-04-22 17:53:01,690] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:01,692] INFO in logger: DB CALL: get_drugs
+[2025-04-22 17:53:01,692] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0025s
+[2025-04-22 17:53:10,966] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:10,968] INFO in logger: DB CALL: get_drugs
+[2025-04-22 17:53:10,968] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0021s
+[2025-04-22 17:53:16,728] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:16,730] INFO in logger: DB CALL: get_companies
+[2025-04-22 17:53:16,730] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0018s
+[2025-04-22 17:53:18,197] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:18,199] INFO in logger: DB CALL: get_drugs
+[2025-04-22 17:53:18,199] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0021s
+[2025-04-22 17:53:29,795] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:29,800] ERROR in logger: DB CALL: del_drug, PARAMS: ['GlaxoSmithKline', 'Advair'], ERROR: Error executing procedure del_drug: 1318 (42000): Incorrect number of arguments for PROCEDURE pharmadb.del_drug; expected 1, got 2
+Traceback (most recent call last):
+  File "/Users/rohanreddy/Documents/GitHub/DBMS_LAB_PROJECT/src/database.py", line 33, in execute_procedure
+    cursor.callproc(proc_name, params)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/cursor.py", line 826, in callproc
+    for result in self._connection.cmd_query_iter(call):
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 894, in cmd_query_iter
+    yield self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 620, in _handle_result
+    raise get_exception(packet)
+mysql.connector.errors.ProgrammingError: 1318 (42000): Incorrect number of arguments for PROCEDURE pharmadb.del_drug; expected 1, got 2
+
+[2025-04-22 17:53:32,988] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:32,989] INFO in logger: DB CALL: get_prescriptions
+[2025-04-22 17:53:32,990] INFO in logger: DB CALL: get_prescriptions, RESULT: Success - 21 records returned in 0.0019s
+[2025-04-22 17:53:48,393] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:48,395] INFO in logger: DB CALL: get_patients_full
+[2025-04-22 17:53:48,395] INFO in logger: DB CALL: get_patients_full, RESULT: Success - 19 records returned in 0.0016s
+[2025-04-22 17:53:49,883] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:53:49,884] INFO in logger: DB CALL: get_drugs
+[2025-04-22 17:53:49,885] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0016s
+[2025-04-22 17:55:29,461] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:55:29,461] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:55:29,462] INFO in logger: DB CALL: get_companies
+[2025-04-22 17:55:29,462] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 17:55:29,462] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0014s
+[2025-04-22 17:55:29,462] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0013s
+[2025-04-22 17:57:56,315] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 17:57:56,317] INFO in logger: DB CALL: get_drugs
+[2025-04-22 17:57:56,317] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0022s
+[2025-04-22 18:04:33,602] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 18:04:33,606] INFO in logger: DB CALL: get_pharmacies
+[2025-04-22 18:04:33,606] INFO in logger: DB CALL: get_pharmacies, RESULT: Success - 10 records returned in 0.0017s
+[2025-04-22 18:04:34,809] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 18:04:34,810] INFO in logger: DB CALL: get_drugs
+[2025-04-22 18:04:34,811] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0013s
+[2025-04-22 18:04:39,846] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 18:04:39,852] ERROR in logger: DB CALL: del_drug, PARAMS: ['Merck', 'Januvia'], ERROR: Error executing procedure del_drug: 1318 (42000): Incorrect number of arguments for PROCEDURE pharmadb.del_drug; expected 1, got 2
+Traceback (most recent call last):
+  File "/Users/rohanreddy/Documents/GitHub/DBMS_LAB_PROJECT/src/database.py", line 33, in execute_procedure
+    cursor.callproc(proc_name, params)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/cursor.py", line 826, in callproc
+    for result in self._connection.cmd_query_iter(call):
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 894, in cmd_query_iter
+    yield self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+          ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/mysql/connector/connection.py", line 620, in _handle_result
+    raise get_exception(packet)
+mysql.connector.errors.ProgrammingError: 1318 (42000): Incorrect number of arguments for PROCEDURE pharmadb.del_drug; expected 1, got 2
+
+[2025-04-22 18:07:39,958] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 18:07:39,960] INFO in logger: DB CALL: get_drugs
+[2025-04-22 18:07:39,961] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0020s
+[2025-04-22 18:07:41,638] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 18:07:41,640] INFO in logger: DB CALL: get_drugs
+[2025-04-22 18:07:41,640] INFO in logger: DB CALL: get_drugs, RESULT: Success - 20 records returned in 0.0021s
+[2025-04-22 18:07:44,336] INFO in logger: DB CALL: get_db_connection, RESULT: Connection established successfully
+[2025-04-22 18:07:44,343] INFO in logger: DB CALL: get_companies
+[2025-04-22 18:07:44,343] INFO in logger: DB CALL: get_companies, RESULT: Success - 11 records returned in 0.0070s

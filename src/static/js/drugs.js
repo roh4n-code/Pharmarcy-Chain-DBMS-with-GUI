@@ -77,7 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Send data to server
         fetch(url, {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
         })
         .then(response => {
             if (!response.ok) {
@@ -138,7 +141,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (confirm(`Are you sure you want to delete drug "${tradeName}" from "${pcName}"?`)) {
             fetch(`/delete_drug/${pcName}/${tradeName}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             })
             .then(response => {
                 if (!response.ok) {
@@ -163,22 +169,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to load pharmaceutical companies for the dropdown
     function loadCompanies() {
-        return fetch('/companies')
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById('manufacturer');
-                select.innerHTML = '<option value="">Select Company</option>';
-                data.forEach(company => {
-                    const option = document.createElement('option');
-                    option.value = company.pc_name;
-                    option.textContent = company.pc_name;
-                    select.appendChild(option);
-                });
-                return data;
-            })
-            .catch(error => {
-                console.error('Error loading companies:', error);
-                showAlert('Failed to load companies. Please refresh the page.', 'danger');
+        return fetch('/companies', {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('manufacturer');
+            select.innerHTML = '<option value="">Select Company</option>';
+            data.forEach(company => {
+                const option = document.createElement('option');
+                option.value = company.pc_name;
+                option.textContent = company.pc_name;
+                select.appendChild(option);
             });
+            return data;
+        })
+        .catch(error => {
+            console.error('Error loading companies:', error);
+            showAlert('Failed to load companies. Please refresh the page.', 'danger');
+        });
     }
 }); 
