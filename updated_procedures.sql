@@ -126,7 +126,7 @@ CREATE PROCEDURE update_drug(IN pc_nam VARCHAR(50), trade_nam VARCHAR(50), formu
 BEGIN
     UPDATE Drugs
     SET pc_name = pc_nam, formula = formul
-    WHERE trade_name = trade_nam;
+    WHERE trade_name = trade_nam and pc_name = pc_nam;
 END //
 
 DELIMITER //
@@ -153,10 +153,10 @@ BEGIN
 END //
 
 DELIMITER //
-CREATE PROCEDURE del_drug(IN trade_nam VARCHAR(50))
+CREATE PROCEDURE del_drug(IN trade_nam VARCHAR(50),IN pc_nam VARCHAR(50))
 BEGIN
     DELETE FROM Drugs
-    WHERE trade_name = trade_nam;
+    WHERE trade_name = trade_nam AND pc_name = pc_nam;
 END //
 
 DELIMITER // 
