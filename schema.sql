@@ -13,7 +13,7 @@ CREATE TABLE Drugs(
     trade_name VARCHAR(50) NOT NULL,
     formula VARCHAR(255),
     
-    PRIMARY KEY(trade_name),
+    PRIMARY KEY(pc_name,trade_name),
     FOREIGN KEY(pc_name) references PharmaCompany(pc_name)
 );
 
@@ -49,8 +49,7 @@ CREATE TABLE Pharmacy_Drugs(
     
     PRIMARY KEY (pc_name,trade_name,ph_name),
     FOREIGN KEY(ph_name) references Pharmacy(ph_name),
-    FOREIGN KEY(pc_name) references PharmaCompany(pc_name),
-    FOREIGN KEY(trade_name) references Drugs(trade_name),
+    FOREIGN KEY (pc_name, trade_name) REFERENCES Drugs(pc_name, trade_name),
     
     CHECK(price > 0 AND quantity > 0)
 );
@@ -97,8 +96,7 @@ CREATE TABLE Prescription_Drugs(
     pr_no INT NOT NULL,
     quantity INT NOT NULL,
     
-    PRIMARY KEY(pc_name,trade_name,pr_no),    
-    FOREIGN KEY(pc_name) references Drugs(pc_name),
-    FOREIGN KEY(pr_no) references Prescription(pr_no),
-    FOREIGN KEY(trade_name) references Drugs(trade_name)
+    PRIMARY KEY(pc_name,trade_name,pr_no),
+    FOREIGN KEY (pc_name, trade_name) REFERENCES Drugs(pc_name, trade_name),
+    FOREIGN KEY(pr_no) references Prescription(pr_no)
 );
